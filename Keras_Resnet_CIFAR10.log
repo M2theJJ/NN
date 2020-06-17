@@ -1,0 +1,1403 @@
+ERROR:root:Exception in main()
+Traceback (most recent call last):
+  File "/home/manjos/PycharmProjects/NN/Keras Resnet.py", line 39, in <module>
+    exit(main())
+NameError: name 'main' is not defined
+INFO:stdout:x_train shape:
+INFO:stdout: 
+INFO:stdout:(50000, 32, 32, 3)
+INFO:stdout:
+
+INFO:stdout:50000
+INFO:stdout: 
+INFO:stdout:train samples
+INFO:stdout:
+
+INFO:stdout:10000
+INFO:stdout: 
+INFO:stdout:test samples
+INFO:stdout:
+
+INFO:stdout:y_train shape:
+INFO:stdout: 
+INFO:stdout:(50000, 1)
+INFO:stdout:
+
+INFO:stdout:Learning rate: 
+INFO:stdout: 
+INFO:stdout:0.001
+INFO:stdout:
+
+INFO:stdout:Model: "model_1"
+INFO:stdout:
+
+INFO:stdout:__________________________________________________________________________________________________
+INFO:stdout:
+
+INFO:stdout:Layer (type)                    Output Shape         Param #     Connected to                     
+INFO:stdout:
+
+INFO:stdout:==================================================================================================
+INFO:stdout:
+
+INFO:stdout:input_1 (InputLayer)            (None, 32, 32, 3)    0                                            
+INFO:stdout:
+
+INFO:stdout:__________________________________________________________________________________________________
+INFO:stdout:
+
+INFO:stdout:conv2d_1 (Conv2D)               (None, 32, 32, 16)   448         input_1[0][0]                    
+INFO:stdout:
+
+INFO:stdout:__________________________________________________________________________________________________
+INFO:stdout:
+
+INFO:stdout:batch_normalization_1 (BatchNor (None, 32, 32, 16)   64          conv2d_1[0][0]                   
+INFO:stdout:
+
+INFO:stdout:__________________________________________________________________________________________________
+INFO:stdout:
+
+INFO:stdout:activation_1 (Activation)       (None, 32, 32, 16)   0           batch_normalization_1[0][0]      
+INFO:stdout:
+
+INFO:stdout:__________________________________________________________________________________________________
+INFO:stdout:
+
+INFO:stdout:conv2d_2 (Conv2D)               (None, 32, 32, 16)   2320        activation_1[0][0]               
+INFO:stdout:
+
+INFO:stdout:__________________________________________________________________________________________________
+INFO:stdout:
+
+INFO:stdout:batch_normalization_2 (BatchNor (None, 32, 32, 16)   64          conv2d_2[0][0]                   
+INFO:stdout:
+
+INFO:stdout:__________________________________________________________________________________________________
+INFO:stdout:
+
+INFO:stdout:activation_2 (Activation)       (None, 32, 32, 16)   0           batch_normalization_2[0][0]      
+INFO:stdout:
+
+INFO:stdout:__________________________________________________________________________________________________
+INFO:stdout:
+
+INFO:stdout:conv2d_3 (Conv2D)               (None, 32, 32, 16)   2320        activation_2[0][0]               
+INFO:stdout:
+
+INFO:stdout:__________________________________________________________________________________________________
+INFO:stdout:
+
+INFO:stdout:batch_normalization_3 (BatchNor (None, 32, 32, 16)   64          conv2d_3[0][0]                   
+INFO:stdout:
+
+INFO:stdout:__________________________________________________________________________________________________
+INFO:stdout:
+
+INFO:stdout:add_1 (Add)                     (None, 32, 32, 16)   0           activation_1[0][0]               
+INFO:stdout:
+
+INFO:stdout:                                                                 batch_normalization_3[0][0]      
+INFO:stdout:
+
+INFO:stdout:__________________________________________________________________________________________________
+INFO:stdout:
+
+INFO:stdout:activation_3 (Activation)       (None, 32, 32, 16)   0           add_1[0][0]                      
+INFO:stdout:
+
+INFO:stdout:__________________________________________________________________________________________________
+INFO:stdout:
+
+INFO:stdout:conv2d_4 (Conv2D)               (None, 32, 32, 16)   2320        activation_3[0][0]               
+INFO:stdout:
+
+INFO:stdout:__________________________________________________________________________________________________
+INFO:stdout:
+
+INFO:stdout:batch_normalization_4 (BatchNor (None, 32, 32, 16)   64          conv2d_4[0][0]                   
+INFO:stdout:
+
+INFO:stdout:__________________________________________________________________________________________________
+INFO:stdout:
+
+INFO:stdout:activation_4 (Activation)       (None, 32, 32, 16)   0           batch_normalization_4[0][0]      
+INFO:stdout:
+
+INFO:stdout:__________________________________________________________________________________________________
+INFO:stdout:
+
+INFO:stdout:conv2d_5 (Conv2D)               (None, 32, 32, 16)   2320        activation_4[0][0]               
+INFO:stdout:
+
+INFO:stdout:__________________________________________________________________________________________________
+INFO:stdout:
+
+INFO:stdout:batch_normalization_5 (BatchNor (None, 32, 32, 16)   64          conv2d_5[0][0]                   
+INFO:stdout:
+
+INFO:stdout:__________________________________________________________________________________________________
+INFO:stdout:
+
+INFO:stdout:add_2 (Add)                     (None, 32, 32, 16)   0           activation_3[0][0]               
+INFO:stdout:
+
+INFO:stdout:                                                                 batch_normalization_5[0][0]      
+INFO:stdout:
+
+INFO:stdout:__________________________________________________________________________________________________
+INFO:stdout:
+
+INFO:stdout:activation_5 (Activation)       (None, 32, 32, 16)   0           add_2[0][0]                      
+INFO:stdout:
+
+INFO:stdout:__________________________________________________________________________________________________
+INFO:stdout:
+
+INFO:stdout:conv2d_6 (Conv2D)               (None, 32, 32, 16)   2320        activation_5[0][0]               
+INFO:stdout:
+
+INFO:stdout:__________________________________________________________________________________________________
+INFO:stdout:
+
+INFO:stdout:batch_normalization_6 (BatchNor (None, 32, 32, 16)   64          conv2d_6[0][0]                   
+INFO:stdout:
+
+INFO:stdout:__________________________________________________________________________________________________
+INFO:stdout:
+
+INFO:stdout:activation_6 (Activation)       (None, 32, 32, 16)   0           batch_normalization_6[0][0]      
+INFO:stdout:
+
+INFO:stdout:__________________________________________________________________________________________________
+INFO:stdout:
+
+INFO:stdout:conv2d_7 (Conv2D)               (None, 32, 32, 16)   2320        activation_6[0][0]               
+INFO:stdout:
+
+INFO:stdout:__________________________________________________________________________________________________
+INFO:stdout:
+
+INFO:stdout:batch_normalization_7 (BatchNor (None, 32, 32, 16)   64          conv2d_7[0][0]                   
+INFO:stdout:
+
+INFO:stdout:__________________________________________________________________________________________________
+INFO:stdout:
+
+INFO:stdout:add_3 (Add)                     (None, 32, 32, 16)   0           activation_5[0][0]               
+INFO:stdout:
+
+INFO:stdout:                                                                 batch_normalization_7[0][0]      
+INFO:stdout:
+
+INFO:stdout:__________________________________________________________________________________________________
+INFO:stdout:
+
+INFO:stdout:activation_7 (Activation)       (None, 32, 32, 16)   0           add_3[0][0]                      
+INFO:stdout:
+
+INFO:stdout:__________________________________________________________________________________________________
+INFO:stdout:
+
+INFO:stdout:conv2d_8 (Conv2D)               (None, 16, 16, 32)   4640        activation_7[0][0]               
+INFO:stdout:
+
+INFO:stdout:__________________________________________________________________________________________________
+INFO:stdout:
+
+INFO:stdout:batch_normalization_8 (BatchNor (None, 16, 16, 32)   128         conv2d_8[0][0]                   
+INFO:stdout:
+
+INFO:stdout:__________________________________________________________________________________________________
+INFO:stdout:
+
+INFO:stdout:activation_8 (Activation)       (None, 16, 16, 32)   0           batch_normalization_8[0][0]      
+INFO:stdout:
+
+INFO:stdout:__________________________________________________________________________________________________
+INFO:stdout:
+
+INFO:stdout:conv2d_9 (Conv2D)               (None, 16, 16, 32)   9248        activation_8[0][0]               
+INFO:stdout:
+
+INFO:stdout:__________________________________________________________________________________________________
+INFO:stdout:
+
+INFO:stdout:conv2d_10 (Conv2D)              (None, 16, 16, 32)   544         activation_7[0][0]               
+INFO:stdout:
+
+INFO:stdout:__________________________________________________________________________________________________
+INFO:stdout:
+
+INFO:stdout:batch_normalization_9 (BatchNor (None, 16, 16, 32)   128         conv2d_9[0][0]                   
+INFO:stdout:
+
+INFO:stdout:__________________________________________________________________________________________________
+INFO:stdout:
+
+INFO:stdout:add_4 (Add)                     (None, 16, 16, 32)   0           conv2d_10[0][0]                  
+INFO:stdout:
+
+INFO:stdout:                                                                 batch_normalization_9[0][0]      
+INFO:stdout:
+
+INFO:stdout:__________________________________________________________________________________________________
+INFO:stdout:
+
+INFO:stdout:activation_9 (Activation)       (None, 16, 16, 32)   0           add_4[0][0]                      
+INFO:stdout:
+
+INFO:stdout:__________________________________________________________________________________________________
+INFO:stdout:
+
+INFO:stdout:conv2d_11 (Conv2D)              (None, 16, 16, 32)   9248        activation_9[0][0]               
+INFO:stdout:
+
+INFO:stdout:__________________________________________________________________________________________________
+INFO:stdout:
+
+INFO:stdout:batch_normalization_10 (BatchNo (None, 16, 16, 32)   128         conv2d_11[0][0]                  
+INFO:stdout:
+
+INFO:stdout:__________________________________________________________________________________________________
+INFO:stdout:
+
+INFO:stdout:activation_10 (Activation)      (None, 16, 16, 32)   0           batch_normalization_10[0][0]     
+INFO:stdout:
+
+INFO:stdout:__________________________________________________________________________________________________
+INFO:stdout:
+
+INFO:stdout:conv2d_12 (Conv2D)              (None, 16, 16, 32)   9248        activation_10[0][0]              
+INFO:stdout:
+
+INFO:stdout:__________________________________________________________________________________________________
+INFO:stdout:
+
+INFO:stdout:batch_normalization_11 (BatchNo (None, 16, 16, 32)   128         conv2d_12[0][0]                  
+INFO:stdout:
+
+INFO:stdout:__________________________________________________________________________________________________
+INFO:stdout:
+
+INFO:stdout:add_5 (Add)                     (None, 16, 16, 32)   0           activation_9[0][0]               
+INFO:stdout:
+
+INFO:stdout:                                                                 batch_normalization_11[0][0]     
+INFO:stdout:
+
+INFO:stdout:__________________________________________________________________________________________________
+INFO:stdout:
+
+INFO:stdout:activation_11 (Activation)      (None, 16, 16, 32)   0           add_5[0][0]                      
+INFO:stdout:
+
+INFO:stdout:__________________________________________________________________________________________________
+INFO:stdout:
+
+INFO:stdout:conv2d_13 (Conv2D)              (None, 16, 16, 32)   9248        activation_11[0][0]              
+INFO:stdout:
+
+INFO:stdout:__________________________________________________________________________________________________
+INFO:stdout:
+
+INFO:stdout:batch_normalization_12 (BatchNo (None, 16, 16, 32)   128         conv2d_13[0][0]                  
+INFO:stdout:
+
+INFO:stdout:__________________________________________________________________________________________________
+INFO:stdout:
+
+INFO:stdout:activation_12 (Activation)      (None, 16, 16, 32)   0           batch_normalization_12[0][0]     
+INFO:stdout:
+
+INFO:stdout:__________________________________________________________________________________________________
+INFO:stdout:
+
+INFO:stdout:conv2d_14 (Conv2D)              (None, 16, 16, 32)   9248        activation_12[0][0]              
+INFO:stdout:
+
+INFO:stdout:__________________________________________________________________________________________________
+INFO:stdout:
+
+INFO:stdout:batch_normalization_13 (BatchNo (None, 16, 16, 32)   128         conv2d_14[0][0]                  
+INFO:stdout:
+
+INFO:stdout:__________________________________________________________________________________________________
+INFO:stdout:
+
+INFO:stdout:add_6 (Add)                     (None, 16, 16, 32)   0           activation_11[0][0]              
+INFO:stdout:
+
+INFO:stdout:                                                                 batch_normalization_13[0][0]     
+INFO:stdout:
+
+INFO:stdout:__________________________________________________________________________________________________
+INFO:stdout:
+
+INFO:stdout:activation_13 (Activation)      (None, 16, 16, 32)   0           add_6[0][0]                      
+INFO:stdout:
+
+INFO:stdout:__________________________________________________________________________________________________
+INFO:stdout:
+
+INFO:stdout:conv2d_15 (Conv2D)              (None, 8, 8, 64)     18496       activation_13[0][0]              
+INFO:stdout:
+
+INFO:stdout:__________________________________________________________________________________________________
+INFO:stdout:
+
+INFO:stdout:batch_normalization_14 (BatchNo (None, 8, 8, 64)     256         conv2d_15[0][0]                  
+INFO:stdout:
+
+INFO:stdout:__________________________________________________________________________________________________
+INFO:stdout:
+
+INFO:stdout:activation_14 (Activation)      (None, 8, 8, 64)     0           batch_normalization_14[0][0]     
+INFO:stdout:
+
+INFO:stdout:__________________________________________________________________________________________________
+INFO:stdout:
+
+INFO:stdout:conv2d_16 (Conv2D)              (None, 8, 8, 64)     36928       activation_14[0][0]              
+INFO:stdout:
+
+INFO:stdout:__________________________________________________________________________________________________
+INFO:stdout:
+
+INFO:stdout:conv2d_17 (Conv2D)              (None, 8, 8, 64)     2112        activation_13[0][0]              
+INFO:stdout:
+
+INFO:stdout:__________________________________________________________________________________________________
+INFO:stdout:
+
+INFO:stdout:batch_normalization_15 (BatchNo (None, 8, 8, 64)     256         conv2d_16[0][0]                  
+INFO:stdout:
+
+INFO:stdout:__________________________________________________________________________________________________
+INFO:stdout:
+
+INFO:stdout:add_7 (Add)                     (None, 8, 8, 64)     0           conv2d_17[0][0]                  
+INFO:stdout:
+
+INFO:stdout:                                                                 batch_normalization_15[0][0]     
+INFO:stdout:
+
+INFO:stdout:__________________________________________________________________________________________________
+INFO:stdout:
+
+INFO:stdout:activation_15 (Activation)      (None, 8, 8, 64)     0           add_7[0][0]                      
+INFO:stdout:
+
+INFO:stdout:__________________________________________________________________________________________________
+INFO:stdout:
+
+INFO:stdout:conv2d_18 (Conv2D)              (None, 8, 8, 64)     36928       activation_15[0][0]              
+INFO:stdout:
+
+INFO:stdout:__________________________________________________________________________________________________
+INFO:stdout:
+
+INFO:stdout:batch_normalization_16 (BatchNo (None, 8, 8, 64)     256         conv2d_18[0][0]                  
+INFO:stdout:
+
+INFO:stdout:__________________________________________________________________________________________________
+INFO:stdout:
+
+INFO:stdout:activation_16 (Activation)      (None, 8, 8, 64)     0           batch_normalization_16[0][0]     
+INFO:stdout:
+
+INFO:stdout:__________________________________________________________________________________________________
+INFO:stdout:
+
+INFO:stdout:conv2d_19 (Conv2D)              (None, 8, 8, 64)     36928       activation_16[0][0]              
+INFO:stdout:
+
+INFO:stdout:__________________________________________________________________________________________________
+INFO:stdout:
+
+INFO:stdout:batch_normalization_17 (BatchNo (None, 8, 8, 64)     256         conv2d_19[0][0]                  
+INFO:stdout:
+
+INFO:stdout:__________________________________________________________________________________________________
+INFO:stdout:
+
+INFO:stdout:add_8 (Add)                     (None, 8, 8, 64)     0           activation_15[0][0]              
+INFO:stdout:
+
+INFO:stdout:                                                                 batch_normalization_17[0][0]     
+INFO:stdout:
+
+INFO:stdout:__________________________________________________________________________________________________
+INFO:stdout:
+
+INFO:stdout:activation_17 (Activation)      (None, 8, 8, 64)     0           add_8[0][0]                      
+INFO:stdout:
+
+INFO:stdout:__________________________________________________________________________________________________
+INFO:stdout:
+
+INFO:stdout:conv2d_20 (Conv2D)              (None, 8, 8, 64)     36928       activation_17[0][0]              
+INFO:stdout:
+
+INFO:stdout:__________________________________________________________________________________________________
+INFO:stdout:
+
+INFO:stdout:batch_normalization_18 (BatchNo (None, 8, 8, 64)     256         conv2d_20[0][0]                  
+INFO:stdout:
+
+INFO:stdout:__________________________________________________________________________________________________
+INFO:stdout:
+
+INFO:stdout:activation_18 (Activation)      (None, 8, 8, 64)     0           batch_normalization_18[0][0]     
+INFO:stdout:
+
+INFO:stdout:__________________________________________________________________________________________________
+INFO:stdout:
+
+INFO:stdout:conv2d_21 (Conv2D)              (None, 8, 8, 64)     36928       activation_18[0][0]              
+INFO:stdout:
+
+INFO:stdout:__________________________________________________________________________________________________
+INFO:stdout:
+
+INFO:stdout:batch_normalization_19 (BatchNo (None, 8, 8, 64)     256         conv2d_21[0][0]                  
+INFO:stdout:
+
+INFO:stdout:__________________________________________________________________________________________________
+INFO:stdout:
+
+INFO:stdout:add_9 (Add)                     (None, 8, 8, 64)     0           activation_17[0][0]              
+INFO:stdout:
+
+INFO:stdout:                                                                 batch_normalization_19[0][0]     
+INFO:stdout:
+
+INFO:stdout:__________________________________________________________________________________________________
+INFO:stdout:
+
+INFO:stdout:activation_19 (Activation)      (None, 8, 8, 64)     0           add_9[0][0]                      
+INFO:stdout:
+
+INFO:stdout:__________________________________________________________________________________________________
+INFO:stdout:
+
+INFO:stdout:average_pooling2d_1 (AveragePoo (None, 1, 1, 64)     0           activation_19[0][0]              
+INFO:stdout:
+
+INFO:stdout:__________________________________________________________________________________________________
+INFO:stdout:
+
+INFO:stdout:flatten_1 (Flatten)             (None, 64)           0           average_pooling2d_1[0][0]        
+INFO:stdout:
+
+INFO:stdout:__________________________________________________________________________________________________
+INFO:stdout:
+
+INFO:stdout:dense_1 (Dense)                 (None, 10)           650         flatten_1[0][0]                  
+INFO:stdout:
+
+INFO:stdout:==================================================================================================
+INFO:stdout:
+
+INFO:stdout:Total params: 274,442
+INFO:stdout:
+
+INFO:stdout:Trainable params: 273,066
+INFO:stdout:
+
+INFO:stdout:Non-trainable params: 1,376
+INFO:stdout:
+
+INFO:stdout:__________________________________________________________________________________________________
+INFO:stdout:
+
+INFO:stdout:ResNet20v1
+INFO:stdout:
+
+INFO:stdout:Using real-time data augmentation.
+INFO:stdout:
+
+INFO:stdout:Epoch 1/200
+INFO:stdout:
+
+INFO:stdout:Learning rate: 
+INFO:stdout: 
+INFO:stdout:0.001
+INFO:stdout:
+
+INFO:stdout:
+
+INFO:stdout:   1/1563 [..............................]
+INFO:stdout: - ETA: 1:26:41 - loss: 3.6012 - accuracy: 0.2188
+INFO:stdout:
+
+INFO:stdout:   2/1563 [..............................]
+INFO:stdout: - ETA: 44:52 - loss: 3.3669 - accuracy: 0.1562  
+INFO:stdout:
+
+INFO:stdout:   3/1563 [..............................]
+INFO:stdout: - ETA: 30:54 - loss: 3.2627 - accuracy: 0.1458
+INFO:stdout:
+
+INFO:stdout:   4/1563 [..............................]
+INFO:stdout: - ETA: 23:55 - loss: 3.0943 - accuracy: 0.1562
+INFO:stdout:
+
+INFO:stdout:   5/1563 [..............................]
+INFO:stdout: - ETA: 19:43 - loss: 3.0328 - accuracy: 0.1562
+INFO:stdout:
+
+INFO:stdout:   6/1563 [..............................]
+INFO:stdout: - ETA: 16:55 - loss: 3.0116 - accuracy: 0.1510
+INFO:stdout:
+
+INFO:stdout:   7/1563 [..............................]
+INFO:stdout: - ETA: 14:56 - loss: 2.9414 - accuracy: 0.1518
+INFO:stdout:
+
+INFO:stdout:   8/1563 [..............................]
+INFO:stdout: - ETA: 13:26 - loss: 2.9274 - accuracy: 0.1680
+INFO:stdout:
+
+INFO:stdout:   9/1563 [..............................]
+INFO:stdout: - ETA: 12:16 - loss: 2.8968 - accuracy: 0.1597
+INFO:stdout:
+
+INFO:stdout:  10/1563 [..............................]
+INFO:stdout: - ETA: 11:20 - loss: 2.9056 - accuracy: 0.1625
+INFO:stdout:
+
+INFO:stdout:  11/1563 [..............................]
+INFO:stdout: - ETA: 10:34 - loss: 2.8715 - accuracy: 0.1562
+INFO:stdout:
+
+INFO:stdout:  12/1563 [..............................]
+INFO:stdout: - ETA: 9:57 - loss: 2.8244 - accuracy: 0.1562 
+INFO:stdout:
+
+INFO:stdout:  13/1563 [..............................]
+INFO:stdout: - ETA: 9:26 - loss: 2.7811 - accuracy: 0.1611
+INFO:stdout:
+
+INFO:stdout:  14/1563 [..............................]
+INFO:stdout: - ETA: 8:59 - loss: 2.7439 - accuracy: 0.1696
+INFO:stdout:
+
+INFO:stdout:  15/1563 [..............................]
+INFO:stdout: - ETA: 8:34 - loss: 2.7288 - accuracy: 0.1688
+INFO:stdout:
+
+INFO:stdout:  16/1563 [..............................]
+INFO:stdout: - ETA: 8:15 - loss: 2.6891 - accuracy: 0.1758
+INFO:stdout:
+
+INFO:stdout:  17/1563 [..............................]
+INFO:stdout: - ETA: 7:58 - loss: 2.6758 - accuracy: 0.1746
+INFO:stdout:
+
+INFO:stdout:  18/1563 [..............................]
+INFO:stdout: - ETA: 7:41 - loss: 2.6635 - accuracy: 0.1753
+INFO:stdout:
+
+INFO:stdout:  19/1563 [..............................]
+INFO:stdout: - ETA: 7:26 - loss: 2.6433 - accuracy: 0.1711
+INFO:stdout:
+
+INFO:stdout:  20/1563 [..............................]
+INFO:stdout: - ETA: 7:14 - loss: 2.6270 - accuracy: 0.1703
+INFO:stdout:
+
+INFO:stdout:  21/1563 [..............................]
+INFO:stdout: - ETA: 7:03 - loss: 2.5976 - accuracy: 0.1771
+INFO:stdout:
+
+INFO:stdout:  22/1563 [..............................]
+INFO:stdout: - ETA: 6:52 - loss: 2.5768 - accuracy: 0.1847
+INFO:stdout:
+
+INFO:stdout:  23/1563 [..............................]
+INFO:stdout: - ETA: 6:44 - loss: 2.5584 - accuracy: 0.1929
+INFO:stdout:
+
+INFO:stdout:  24/1563 [..............................]
+INFO:stdout: - ETA: 6:36 - loss: 2.5409 - accuracy: 0.1992
+INFO:stdout:
+
+INFO:stdout:  25/1563 [..............................]
+INFO:stdout: - ETA: 6:28 - loss: 2.5284 - accuracy: 0.2025
+INFO:stdout:
+
+INFO:stdout:  26/1563 [..............................]
+INFO:stdout: - ETA: 6:19 - loss: 2.5196 - accuracy: 0.2007
+INFO:stdout:
+
+INFO:stdout:  27/1563 [..............................]
+INFO:stdout: - ETA: 6:12 - loss: 2.5066 - accuracy: 0.2025
+INFO:stdout:
+
+INFO:stdout:  28/1563 [..............................]
+INFO:stdout: - ETA: 6:07 - loss: 2.4961 - accuracy: 0.2087
+INFO:stdout:
+
+INFO:stdout:  29/1563 [..............................]
+INFO:stdout: - ETA: 6:01 - loss: 2.4866 - accuracy: 0.2101
+INFO:stdout:
+
+INFO:stdout:  30/1563 [..............................]
+INFO:stdout: - ETA: 5:56 - loss: 2.4634 - accuracy: 0.2177
+INFO:stdout:
+
+INFO:stdout:  31/1563 [..............................]
+INFO:stdout: - ETA: 5:51 - loss: 2.4548 - accuracy: 0.2198
+INFO:stdout:
+
+INFO:stdout:  32/1563 [..............................]
+INFO:stdout: - ETA: 5:46 - loss: 2.4531 - accuracy: 0.2197
+INFO:stdout:
+
+INFO:stdout:  33/1563 [..............................]
+INFO:stdout: - ETA: 5:42 - loss: 2.4364 - accuracy: 0.2244
+INFO:stdout:
+
+INFO:stdout:  34/1563 [..............................]
+INFO:stdout: - ETA: 5:37 - loss: 2.4202 - accuracy: 0.2279
+INFO:stdout:
+
+INFO:stdout:  35/1563 [..............................]
+INFO:stdout: - ETA: 5:32 - loss: 2.4111 - accuracy: 0.2313
+INFO:stdout:
+
+INFO:stdout:  36/1563 [..............................]
+INFO:stdout: - ETA: 5:28 - loss: 2.3977 - accuracy: 0.2361
+INFO:stdout:
+
+INFO:stdout:  37/1563 [..............................]
+INFO:stdout: - ETA: 5:24 - loss: 2.3849 - accuracy: 0.2356
+INFO:stdout:
+
+INFO:stdout:  38/1563 [..............................]
+INFO:stdout: - ETA: 5:20 - loss: 2.3813 - accuracy: 0.2377
+INFO:stdout:
+
+INFO:stdout:  39/1563 [..............................]
+INFO:stdout: - ETA: 5:16 - loss: 2.3740 - accuracy: 0.2412
+INFO:stdout:
+
+INFO:stdout:  40/1563 [..............................]
+INFO:stdout: - ETA: 5:13 - loss: 2.3651 - accuracy: 0.2422
+INFO:stdout:
+
+INFO:stdout:  41/1563 [..............................]
+INFO:stdout: - ETA: 5:09 - loss: 2.3632 - accuracy: 0.2454
+INFO:stdout:
+
+INFO:stdout:  42/1563 [..............................]
+INFO:stdout: - ETA: 5:06 - loss: 2.3563 - accuracy: 0.2470
+INFO:stdout:
+
+INFO:stdout:  43/1563 [..............................]
+INFO:stdout: - ETA: 5:03 - loss: 2.3479 - accuracy: 0.2485
+INFO:stdout:
+
+INFO:stdout:  44/1563 [..............................]
+INFO:stdout: - ETA: 5:00 - loss: 2.3381 - accuracy: 0.2514
+INFO:stdout:
+
+INFO:stdout:  45/1563 [..............................]
+INFO:stdout: - ETA: 4:57 - loss: 2.3399 - accuracy: 0.2500
+INFO:stdout:
+
+INFO:stdout:  46/1563 [..............................]
+INFO:stdout: - ETA: 4:54 - loss: 2.3344 - accuracy: 0.2507
+INFO:stdout:
+
+INFO:stdout:  47/1563 [..............................]
+INFO:stdout: - ETA: 4:52 - loss: 2.3239 - accuracy: 0.2547
+INFO:stdout:
+
+INFO:stdout:  48/1563 [..............................]
+INFO:stdout: - ETA: 4:49 - loss: 2.3174 - accuracy: 0.2565
+INFO:stdout:
+
+INFO:stdout:  49/1563 [..............................]
+INFO:stdout: - ETA: 4:47 - loss: 2.3147 - accuracy: 0.2577
+INFO:stdout:
+
+INFO:stdout:  50/1563 [..............................]
+INFO:stdout: - ETA: 4:45 - loss: 2.3148 - accuracy: 0.2575
+INFO:stdout:
+
+INFO:stdout:  51/1563 [..............................]
+INFO:stdout: - ETA: 4:43 - loss: 2.3040 - accuracy: 0.2592
+INFO:stdout:
+
+INFO:stdout:  52/1563 [..............................]
+INFO:stdout: - ETA: 4:41 - loss: 2.2960 - accuracy: 0.2614
+INFO:stdout:
+
+INFO:stdout:  53/1563 [>.............................]
+INFO:stdout: - ETA: 4:39 - loss: 2.2951 - accuracy: 0.2600
+INFO:stdout:
+
+INFO:stdout:  54/1563 [>.............................]
+INFO:stdout: - ETA: 4:37 - loss: 2.2904 - accuracy: 0.2593
+INFO:stdout:
+
+INFO:stdout:  55/1563 [>.............................]
+INFO:stdout: - ETA: 4:35 - loss: 2.2866 - accuracy: 0.2608
+INFO:stdout:
+
+INFO:stdout:  56/1563 [>.............................]
+INFO:stdout: - ETA: 4:33 - loss: 2.2811 - accuracy: 0.2623
+INFO:stdout:
+
+INFO:stdout:  57/1563 [>.............................]
+INFO:stdout: - ETA: 4:32 - loss: 2.2763 - accuracy: 0.2632
+INFO:stdout:
+
+INFO:stdout:  58/1563 [>.............................]
+INFO:stdout: - ETA: 4:30 - loss: 2.2749 - accuracy: 0.2640
+INFO:stdout:
+
+INFO:stdout:  59/1563 [>.............................]
+INFO:stdout: - ETA: 4:28 - loss: 2.2718 - accuracy: 0.2654
+INFO:stdout:
+
+INFO:stdout:  60/1563 [>.............................]
+INFO:stdout: - ETA: 4:26 - loss: 2.2687 - accuracy: 0.2661
+INFO:stdout:
+
+INFO:stdout:  61/1563 [>.............................]
+INFO:stdout: - ETA: 4:25 - loss: 2.2616 - accuracy: 0.2695
+INFO:stdout:
+
+INFO:stdout:  62/1563 [>.............................]
+INFO:stdout: - ETA: 4:23 - loss: 2.2547 - accuracy: 0.2697
+INFO:stdout:
+
+INFO:stdout:  63/1563 [>.............................]
+INFO:stdout: - ETA: 4:21 - loss: 2.2506 - accuracy: 0.2698
+INFO:stdout:
+
+INFO:stdout:  64/1563 [>.............................]
+INFO:stdout: - ETA: 4:20 - loss: 2.2470 - accuracy: 0.2720
+INFO:stdout:
+
+INFO:stdout:  65/1563 [>.............................]
+INFO:stdout: - ETA: 4:19 - loss: 2.2438 - accuracy: 0.2726
+INFO:stdout:
+
+INFO:stdout:  66/1563 [>.............................]
+INFO:stdout: - ETA: 4:17 - loss: 2.2378 - accuracy: 0.2732
+INFO:stdout:
+
+INFO:stdout:  67/1563 [>.............................]
+INFO:stdout: - ETA: 4:16 - loss: 2.2331 - accuracy: 0.2752
+INFO:stdout:
+
+INFO:stdout:  68/1563 [>.............................]
+INFO:stdout: - ETA: 4:14 - loss: 2.2310 - accuracy: 0.2744
+INFO:stdout:
+
+INFO:stdout:  69/1563 [>.............................]
+INFO:stdout: - ETA: 4:13 - loss: 2.2228 - accuracy: 0.2758
+INFO:stdout:
+
+INFO:stdout:  70/1563 [>.............................]
+INFO:stdout: - ETA: 4:12 - loss: 2.2157 - accuracy: 0.2781
+INFO:stdout:
+
+INFO:stdout:  71/1563 [>.............................]
+INFO:stdout: - ETA: 4:10 - loss: 2.2143 - accuracy: 0.2768
+INFO:stdout:
+
+INFO:stdout:  72/1563 [>.............................]
+INFO:stdout: - ETA: 4:09 - loss: 2.2092 - accuracy: 0.2773
+INFO:stdout:
+
+INFO:stdout:  73/1563 [>.............................]
+INFO:stdout: - ETA: 4:08 - loss: 2.2044 - accuracy: 0.2791
+INFO:stdout:
+
+INFO:stdout:  74/1563 [>.............................]
+INFO:stdout: - ETA: 4:07 - loss: 2.2028 - accuracy: 0.2796
+INFO:stdout:
+
+INFO:stdout:  75/1563 [>.............................]
+INFO:stdout: - ETA: 4:06 - loss: 2.1992 - accuracy: 0.2804
+INFO:stdout:
+
+INFO:stdout:  76/1563 [>.............................]
+INFO:stdout: - ETA: 4:05 - loss: 2.1955 - accuracy: 0.2817
+INFO:stdout:
+
+INFO:stdout:  77/1563 [>.............................]
+INFO:stdout: - ETA: 4:03 - loss: 2.1935 - accuracy: 0.2825
+INFO:stdout:
+
+INFO:stdout:  78/1563 [>.............................]
+INFO:stdout: - ETA: 4:02 - loss: 2.1915 - accuracy: 0.2837
+INFO:stdout:
+
+INFO:stdout:  79/1563 [>.............................]
+INFO:stdout: - ETA: 4:01 - loss: 2.1881 - accuracy: 0.2840
+INFO:stdout:
+
+INFO:stdout:  80/1563 [>.............................]
+INFO:stdout: - ETA: 4:01 - loss: 2.1892 - accuracy: 0.2816
+INFO:stdout:
+
+INFO:stdout:  81/1563 [>.............................]
+INFO:stdout: - ETA: 4:00 - loss: 2.1941 - accuracy: 0.2816
+INFO:stdout:
+
+INFO:stdout:  82/1563 [>.............................]
+INFO:stdout: - ETA: 4:00 - loss: 2.1927 - accuracy: 0.2816
+INFO:stdout:
+
+INFO:stdout:  83/1563 [>.............................]
+INFO:stdout: - ETA: 3:59 - loss: 2.1911 - accuracy: 0.2816
+INFO:stdout:
+
+INFO:stdout:  84/1563 [>.............................]
+INFO:stdout: - ETA: 3:58 - loss: 2.1918 - accuracy: 0.2812
+INFO:stdout:
+
+INFO:stdout:  85/1563 [>.............................]
+INFO:stdout: - ETA: 3:58 - loss: 2.1884 - accuracy: 0.2827
+INFO:stdout:
+
+INFO:stdout:  86/1563 [>.............................]
+INFO:stdout: - ETA: 3:58 - loss: 2.1842 - accuracy: 0.2842
+INFO:stdout:
+
+INFO:stdout:  87/1563 [>.............................]
+INFO:stdout: - ETA: 3:57 - loss: 2.1788 - accuracy: 0.2848
+INFO:stdout:
+
+INFO:stdout:  88/1563 [>.............................]
+INFO:stdout: - ETA: 3:57 - loss: 2.1763 - accuracy: 0.2855
+INFO:stdout:
+
+INFO:stdout:  89/1563 [>.............................]
+INFO:stdout: - ETA: 3:57 - loss: 2.1747 - accuracy: 0.2855
+INFO:stdout:
+
+INFO:stdout:  90/1563 [>.............................]
+INFO:stdout: - ETA: 3:57 - loss: 2.1735 - accuracy: 0.2851
+INFO:stdout:
+
+INFO:stdout:  91/1563 [>.............................]
+INFO:stdout: - ETA: 3:57 - loss: 2.1664 - accuracy: 0.2881
+INFO:stdout:
+
+INFO:stdout:  92/1563 [>.............................]
+INFO:stdout: - ETA: 3:56 - loss: 2.1643 - accuracy: 0.2887
+INFO:stdout:
+
+INFO:stdout:  93/1563 [>.............................]
+INFO:stdout: - ETA: 3:57 - loss: 2.1618 - accuracy: 0.2890
+INFO:stdout:
+
+INFO:stdout:  94/1563 [>.............................]
+INFO:stdout: - ETA: 3:56 - loss: 2.1568 - accuracy: 0.2906
+INFO:stdout:
+
+INFO:stdout:  95/1563 [>.............................]
+INFO:stdout: - ETA: 3:56 - loss: 2.1557 - accuracy: 0.2905
+INFO:stdout:
+
+INFO:stdout:  96/1563 [>.............................]
+INFO:stdout: - ETA: 3:56 - loss: 2.1512 - accuracy: 0.2917
+INFO:stdout:
+
+INFO:stdout:  97/1563 [>.............................]
+INFO:stdout: - ETA: 3:56 - loss: 2.1493 - accuracy: 0.2916
+INFO:stdout:
+
+INFO:stdout:  98/1563 [>.............................]
+INFO:stdout: - ETA: 3:56 - loss: 2.1449 - accuracy: 0.2927
+INFO:stdout:
+
+INFO:stdout:  99/1563 [>.............................]
+INFO:stdout: - ETA: 3:56 - loss: 2.1443 - accuracy: 0.2920
+INFO:stdout:
+
+INFO:stdout: 100/1563 [>.............................]
+INFO:stdout: - ETA: 3:55 - loss: 2.1402 - accuracy: 0.2944
+INFO:stdout:
+
+INFO:stdout: 101/1563 [>.............................]
+INFO:stdout: - ETA: 3:55 - loss: 2.1355 - accuracy: 0.2964
+INFO:stdout:
+
+INFO:stdout: 102/1563 [>.............................]
+INFO:stdout: - ETA: 3:55 - loss: 2.1358 - accuracy: 0.2960
+INFO:stdout:
+
+INFO:stdout: 103/1563 [>.............................]
+INFO:stdout: - ETA: 3:55 - loss: 2.1339 - accuracy: 0.2967
+INFO:stdout:
+
+INFO:stdout: 104/1563 [>.............................]
+INFO:stdout: - ETA: 3:55 - loss: 2.1322 - accuracy: 0.2969
+INFO:stdout:
+
+INFO:stdout: 105/1563 [=>............................]
+INFO:stdout: - ETA: 3:55 - loss: 2.1295 - accuracy: 0.2979
+INFO:stdout:
+
+INFO:stdout: 106/1563 [=>............................]
+INFO:stdout: - ETA: 3:55 - loss: 2.1287 - accuracy: 0.2981
+INFO:stdout:
+
+INFO:stdout: 107/1563 [=>............................]
+INFO:stdout: - ETA: 3:55 - loss: 2.1255 - accuracy: 0.2996
+INFO:stdout:
+
+INFO:stdout: 108/1563 [=>............................]
+INFO:stdout: - ETA: 3:55 - loss: 2.1227 - accuracy: 0.3006
+INFO:stdout:
+
+INFO:stdout: 109/1563 [=>............................]
+INFO:stdout: - ETA: 3:54 - loss: 2.1212 - accuracy: 0.3002
+INFO:stdout:
+
+INFO:stdout: 110/1563 [=>............................]
+INFO:stdout: - ETA: 3:54 - loss: 2.1206 - accuracy: 0.2994
+INFO:stdout:
+
+INFO:stdout: 111/1563 [=>............................]
+INFO:stdout: - ETA: 3:54 - loss: 2.1168 - accuracy: 0.3004
+INFO:stdout:
+
+INFO:stdout: 112/1563 [=>............................]
+INFO:stdout: - ETA: 3:54 - loss: 2.1126 - accuracy: 0.3011
+INFO:stdout:
+
+INFO:stdout: 113/1563 [=>............................]
+INFO:stdout: - ETA: 3:54 - loss: 2.1114 - accuracy: 0.3009
+INFO:stdout:
+
+INFO:stdout: 114/1563 [=>............................]
+INFO:stdout: - ETA: 3:53 - loss: 2.1085 - accuracy: 0.3013
+INFO:stdout:
+
+INFO:stdout: 115/1563 [=>............................]
+INFO:stdout: - ETA: 3:53 - loss: 2.1059 - accuracy: 0.3019
+INFO:stdout:
+
+INFO:stdout: 116/1563 [=>............................]
+INFO:stdout: - ETA: 3:53 - loss: 2.1061 - accuracy: 0.3009
+INFO:stdout:
+
+INFO:stdout: 117/1563 [=>............................]
+INFO:stdout: - ETA: 3:53 - loss: 2.1058 - accuracy: 0.3007
+INFO:stdout:
+
+INFO:stdout: 118/1563 [=>............................]
+INFO:stdout: - ETA: 3:53 - loss: 2.1045 - accuracy: 0.3011
+INFO:stdout:
+
+INFO:stdout: 119/1563 [=>............................]
+INFO:stdout: - ETA: 3:52 - loss: 2.1032 - accuracy: 0.3017
+INFO:stdout:
+
+INFO:stdout: 120/1563 [=>............................]
+INFO:stdout: - ETA: 3:52 - loss: 2.0992 - accuracy: 0.3021
+INFO:stdout:
+
+INFO:stdout: 121/1563 [=>............................]
+INFO:stdout: - ETA: 3:52 - loss: 2.0961 - accuracy: 0.3024
+INFO:stdout:
+
+INFO:stdout: 122/1563 [=>............................]
+INFO:stdout: - ETA: 3:52 - loss: 2.0957 - accuracy: 0.3023
+INFO:stdout:
+
+INFO:stdout: 123/1563 [=>............................]
+INFO:stdout: - ETA: 3:51 - loss: 2.0948 - accuracy: 0.3031
+INFO:stdout:
+
+INFO:stdout: 124/1563 [=>............................]
+INFO:stdout: - ETA: 3:51 - loss: 2.0923 - accuracy: 0.3034
+INFO:stdout:
+
+INFO:stdout: 125/1563 [=>............................]
+INFO:stdout: - ETA: 3:51 - loss: 2.0910 - accuracy: 0.3038
+INFO:stdout:
+
+INFO:stdout: 126/1563 [=>............................]
+INFO:stdout: - ETA: 3:51 - loss: 2.0897 - accuracy: 0.3051
+INFO:stdout:
+
+INFO:stdout: 127/1563 [=>............................]
+INFO:stdout: - ETA: 3:51 - loss: 2.0868 - accuracy: 0.3063
+INFO:stdout:
+
+INFO:stdout: 128/1563 [=>............................]
+INFO:stdout: - ETA: 3:51 - loss: 2.0831 - accuracy: 0.3074
+INFO:stdout:
+
+INFO:stdout: 129/1563 [=>............................]
+INFO:stdout: - ETA: 3:50 - loss: 2.0821 - accuracy: 0.3086
+INFO:stdout:
+
+INFO:stdout: 130/1563 [=>............................]
+INFO:stdout: - ETA: 3:50 - loss: 2.0820 - accuracy: 0.3079
+INFO:stdout:
+
+INFO:stdout: 131/1563 [=>............................]
+INFO:stdout: - ETA: 3:50 - loss: 2.0792 - accuracy: 0.3089
+INFO:stdout:
+
+INFO:stdout: 132/1563 [=>............................]
+INFO:stdout: - ETA: 3:50 - loss: 2.0798 - accuracy: 0.3082
+INFO:stdout:
+
+INFO:stdout: 133/1563 [=>............................]
+INFO:stdout: - ETA: 3:50 - loss: 2.0787 - accuracy: 0.3090
+INFO:stdout:
+
+INFO:stdout: 134/1563 [=>............................]
+INFO:stdout: - ETA: 3:50 - loss: 2.0771 - accuracy: 0.3090
+INFO:stdout:
+
+INFO:stdout: 135/1563 [=>............................]
+INFO:stdout: - ETA: 3:49 - loss: 2.0755 - accuracy: 0.3102
+INFO:stdout:
+
+INFO:stdout: 136/1563 [=>............................]
+INFO:stdout: - ETA: 3:50 - loss: 2.0749 - accuracy: 0.3102
+INFO:stdout:
+
+INFO:stdout: 137/1563 [=>............................]
+INFO:stdout: - ETA: 3:50 - loss: 2.0744 - accuracy: 0.3104
+INFO:stdout:
+
+INFO:stdout: 138/1563 [=>............................]
+INFO:stdout: - ETA: 3:50 - loss: 2.0719 - accuracy: 0.3120
+INFO:stdout:
+
+INFO:stdout: 139/1563 [=>............................]
+INFO:stdout: - ETA: 3:50 - loss: 2.0715 - accuracy: 0.3123
+INFO:stdout:
+
+INFO:stdout: 140/1563 [=>............................]
+INFO:stdout: - ETA: 3:51 - loss: 2.0687 - accuracy: 0.3134
+INFO:stdout:
+
+INFO:stdout: 141/1563 [=>............................]
+INFO:stdout: - ETA: 3:51 - loss: 2.0690 - accuracy: 0.3127
+INFO:stdout:
+
+INFO:stdout: 142/1563 [=>............................]
+INFO:stdout: - ETA: 3:51 - loss: 2.0674 - accuracy: 0.3129
+INFO:stdout:
+
+INFO:stdout: 143/1563 [=>............................]
+INFO:stdout: - ETA: 3:51 - loss: 2.0682 - accuracy: 0.3125
+INFO:stdout:
+
+INFO:stdout: 144/1563 [=>............................]
+INFO:stdout: - ETA: 3:51 - loss: 2.0666 - accuracy: 0.3132
+INFO:stdout:
+
+INFO:stdout: 145/1563 [=>............................]
+INFO:stdout: - ETA: 3:51 - loss: 2.0640 - accuracy: 0.3136
+INFO:stdout:
+
+INFO:stdout: 146/1563 [=>............................]
+INFO:stdout: - ETA: 3:51 - loss: 2.0628 - accuracy: 0.3136
+INFO:stdout:
+
+INFO:stdout: 147/1563 [=>............................]
+INFO:stdout: - ETA: 3:51 - loss: 2.0613 - accuracy: 0.3136
+INFO:stdout:
+
+INFO:stdout: 148/1563 [=>............................]
+INFO:stdout: - ETA: 3:51 - loss: 2.0597 - accuracy: 0.3144
+INFO:stdout:
+
+INFO:stdout: 149/1563 [=>............................]
+INFO:stdout: - ETA: 3:51 - loss: 2.0607 - accuracy: 0.3146
+INFO:stdout:
+
+INFO:stdout: 150/1563 [=>............................]
+INFO:stdout: - ETA: 3:51 - loss: 2.0601 - accuracy: 0.3148
+INFO:stdout:
+
+INFO:stdout: 151/1563 [=>............................]
+INFO:stdout: - ETA: 3:51 - loss: 2.0592 - accuracy: 0.3150
+INFO:stdout:
+
+INFO:stdout: 152/1563 [=>............................]
+INFO:stdout: - ETA: 3:51 - loss: 2.0570 - accuracy: 0.3158
+INFO:stdout:
+
+INFO:stdout: 153/1563 [=>............................]
+INFO:stdout: - ETA: 3:50 - loss: 2.0559 - accuracy: 0.3156
+INFO:stdout:
+
+INFO:stdout: 154/1563 [=>............................]
+INFO:stdout: - ETA: 3:50 - loss: 2.0527 - accuracy: 0.3176
+INFO:stdout:
+
+INFO:stdout: 155/1563 [=>............................]
+INFO:stdout: - ETA: 3:50 - loss: 2.0509 - accuracy: 0.3183
+INFO:stdout:
+
+INFO:stdout: 156/1563 [=>............................]
+INFO:stdout: - ETA: 3:50 - loss: 2.0498 - accuracy: 0.3189
+INFO:stdout:
+
+INFO:stdout: 157/1563 [==>...........................]
+INFO:stdout: - ETA: 3:50 - loss: 2.0477 - accuracy: 0.3195
+INFO:stdout:
+
+INFO:stdout: 158/1563 [==>...........................]
+INFO:stdout: - ETA: 3:50 - loss: 2.0477 - accuracy: 0.3188
+INFO:stdout:
+
+INFO:stdout: 159/1563 [==>...........................]
+INFO:stdout: - ETA: 3:50 - loss: 2.0456 - accuracy: 0.3186
+INFO:stdout:
+
+INFO:stdout: 160/1563 [==>...........................]
+INFO:stdout: - ETA: 3:51 - loss: 2.0430 - accuracy: 0.3199
+INFO:stdout:
+
+INFO:stdout: 161/1563 [==>...........................]
+INFO:stdout: - ETA: 3:52 - loss: 2.0419 - accuracy: 0.3205
+INFO:stdout:
+
+INFO:stdout: 162/1563 [==>...........................]
+INFO:stdout: - ETA: 3:53 - loss: 2.0414 - accuracy: 0.3208
+INFO:stdout:
+
+INFO:stdout: 163/1563 [==>...........................]
+INFO:stdout: - ETA: 3:53 - loss: 2.0395 - accuracy: 0.3211
+INFO:stdout:
+
+INFO:stdout: 164/1563 [==>...........................]
+INFO:stdout: - ETA: 3:53 - loss: 2.0365 - accuracy: 0.3218
+INFO:stdout:
+
+INFO:stdout: 165/1563 [==>...........................]
+INFO:stdout: - ETA: 3:53 - loss: 2.0351 - accuracy: 0.3216
+INFO:stdout:
+
+INFO:stdout: 166/1563 [==>...........................]
+INFO:stdout: - ETA: 3:53 - loss: 2.0341 - accuracy: 0.3217
+INFO:stdout:
+
+INFO:stdout: 167/1563 [==>...........................]
+INFO:stdout: - ETA: 3:53 - loss: 2.0329 - accuracy: 0.3222
+INFO:stdout:
+
+INFO:stdout: 168/1563 [==>...........................]
+INFO:stdout: - ETA: 3:52 - loss: 2.0320 - accuracy: 0.3227
+INFO:stdout:
+
+INFO:stdout: 169/1563 [==>...........................]
+INFO:stdout: - ETA: 3:52 - loss: 2.0296 - accuracy: 0.3232
+INFO:stdout:
+
+INFO:stdout: 170/1563 [==>...........................]
+INFO:stdout: - ETA: 3:52 - loss: 2.0283 - accuracy: 0.3228
+INFO:stdout:
+
+INFO:stdout: 171/1563 [==>...........................]
+INFO:stdout: - ETA: 3:52 - loss: 2.0271 - accuracy: 0.3231
+INFO:stdout:
+
+INFO:stdout: 172/1563 [==>...........................]
+INFO:stdout: - ETA: 3:52 - loss: 2.0253 - accuracy: 0.3239
+INFO:stdout:
+
+INFO:stdout: 173/1563 [==>...........................]
+INFO:stdout: - ETA: 3:52 - loss: 2.0225 - accuracy: 0.3255
+INFO:stdout:
+
+INFO:stdout: 174/1563 [==>...........................]
+INFO:stdout: - ETA: 3:52 - loss: 2.0202 - accuracy: 0.3260
+INFO:stdout:
+
+INFO:stdout: 175/1563 [==>...........................]
+INFO:stdout: - ETA: 3:52 - loss: 2.0184 - accuracy: 0.3264
+INFO:stdout:
+
+INFO:stdout: 176/1563 [==>...........................]
+INFO:stdout: - ETA: 3:52 - loss: 2.0173 - accuracy: 0.3274
+INFO:stdout:
+
+INFO:stdout: 177/1563 [==>...........................]
+INFO:stdout: - ETA: 3:52 - loss: 2.0174 - accuracy: 0.3273
+INFO:stdout:
+
+INFO:stdout: 178/1563 [==>...........................]
+INFO:stdout: - ETA: 3:51 - loss: 2.0155 - accuracy: 0.3274
+INFO:stdout:
+
+INFO:stdout: 179/1563 [==>...........................]
+INFO:stdout: - ETA: 3:51 - loss: 2.0150 - accuracy: 0.3275
+INFO:stdout:
+
+INFO:stdout: 180/1563 [==>...........................]
+INFO:stdout: - ETA: 3:51 - loss: 2.0130 - accuracy: 0.3280
+INFO:stdout:
+
+INFO:stdout: 181/1563 [==>...........................]
+INFO:stdout: - ETA: 3:51 - loss: 2.0119 - accuracy: 0.3277
+INFO:stdout:
+
+INFO:stdout: 182/1563 [==>...........................]
+INFO:stdout: - ETA: 3:50 - loss: 2.0111 - accuracy: 0.3276
+INFO:stdout:
+
+INFO:stdout: 183/1563 [==>...........................]
+INFO:stdout: - ETA: 3:50 - loss: 2.0101 - accuracy: 0.3275
+INFO:stdout:
+
+INFO:stdout: 184/1563 [==>...........................]
+INFO:stdout: - ETA: 3:50 - loss: 2.0109 - accuracy: 0.3271
+INFO:stdout:
+
+INFO:stdout: 185/1563 [==>...........................]
+INFO:stdout: - ETA: 3:50 - loss: 2.0118 - accuracy: 0.3265
+INFO:stdout:
+
+INFO:stdout: 186/1563 [==>...........................]
+INFO:stdout: - ETA: 3:49 - loss: 2.0094 - accuracy: 0.3271
+INFO:stdout:
+
+INFO:stdout: 187/1563 [==>...........................]
+INFO:stdout: - ETA: 3:49 - loss: 2.0088 - accuracy: 0.3275
+INFO:stdout:
+
+INFO:stdout: 188/1563 [==>...........................]
+INFO:stdout: - ETA: 3:49 - loss: 2.0064 - accuracy: 0.3285
+INFO:stdout:
+
+INFO:stdout: 189/1563 [==>...........................]
+INFO:stdout: - ETA: 3:49 - loss: 2.0049 - accuracy: 0.3294
+INFO:stdout:
+
+INFO:stdout: 190/1563 [==>...........................]
+INFO:stdout: - ETA: 3:49 - loss: 2.0034 - accuracy: 0.3298
+INFO:stdout:
+
+INFO:stdout: 191/1563 [==>...........................]
+INFO:stdout: - ETA: 3:48 - loss: 2.0036 - accuracy: 0.3297
+INFO:stdout:
+
+INFO:stdout: 192/1563 [==>...........................]
+INFO:stdout: - ETA: 3:48 - loss: 2.0025 - accuracy: 0.3299
+INFO:stdout:
+
+INFO:stdout: 193/1563 [==>...........................]
+INFO:stdout: - ETA: 3:48 - loss: 2.0005 - accuracy: 0.3310
+INFO:stdout:
+
+INFO:stdout: 194/1563 [==>...........................]
+INFO:stdout: - ETA: 3:48 - loss: 1.9991 - accuracy: 0.3313
+INFO:stdout:
+
+INFO:stdout: 195/1563 [==>...........................]
+INFO:stdout: - ETA: 3:47 - loss: 1.9969 - accuracy: 0.3319
+INFO:stdout:
+
+INFO:stdout: 196/1563 [==>...........................]
+INFO:stdout: - ETA: 3:47 - loss: 1.9969 - accuracy: 0.3323
+INFO:stdout:
+
+INFO:stdout: 197/1563 [==>...........................]
+INFO:stdout: - ETA: 3:47 - loss: 1.9970 - accuracy: 0.3320
+INFO:stdout:
+
+INFO:stdout: 198/1563 [==>...........................]
+INFO:stdout: - ETA: 3:47 - loss: 1.9962 - accuracy: 0.3325
+INFO:stdout:
+
+INFO:stdout: 199/1563 [==>...........................]
+INFO:stdout: - ETA: 3:47 - loss: 1.9961 - accuracy: 0.3326
+INFO:stdout:
+
+INFO:stdout: 200/1563 [==>...........................]
+INFO:stdout: - ETA: 3:46 - loss: 1.9954 - accuracy: 0.3322
+INFO:stdout:
+
+INFO:stdout: 201/1563 [==>...........................]
+INFO:stdout: - ETA: 3:46 - loss: 1.9944 - accuracy: 0.3326
+INFO:stderr:Traceback (most recent call last):
+
+INFO:stderr:  File "/home/manjos/PycharmProjects/NN/Keras Resnet.py", line 438, in <module>
+
+INFO:stderr:    
+INFO:stderr:callbacks=callbacks)
+INFO:stderr:
+
+INFO:stderr:  File "/home/manjos/.var/app/com.jetbrains.PyCharm-Professional/data/virtualenvs/NN-4UkdxUJt/lib/python3.7/site-packages/keras/legacy/interfaces.py", line 91, in wrapper
+
+INFO:stderr:    
+INFO:stderr:return func(*args, **kwargs)
+INFO:stderr:
+
+INFO:stderr:  File "/home/manjos/.var/app/com.jetbrains.PyCharm-Professional/data/virtualenvs/NN-4UkdxUJt/lib/python3.7/site-packages/keras/engine/training.py", line 1732, in fit_generator
+
+INFO:stderr:    
+INFO:stderr:initial_epoch=initial_epoch)
+INFO:stderr:
+
+INFO:stderr:  File "/home/manjos/.var/app/com.jetbrains.PyCharm-Professional/data/virtualenvs/NN-4UkdxUJt/lib/python3.7/site-packages/keras/engine/training_generator.py", line 220, in fit_generator
+
+INFO:stderr:    
+INFO:stderr:reset_metrics=False)
+INFO:stderr:
+
+INFO:stderr:  File "/home/manjos/.var/app/com.jetbrains.PyCharm-Professional/data/virtualenvs/NN-4UkdxUJt/lib/python3.7/site-packages/keras/engine/training.py", line 1514, in train_on_batch
+
+INFO:stderr:    
+INFO:stderr:outputs = self.train_function(ins)
+INFO:stderr:
+
+INFO:stderr:  File "/home/manjos/.var/app/com.jetbrains.PyCharm-Professional/data/virtualenvs/NN-4UkdxUJt/lib/python3.7/site-packages/tensorflow/python/keras/backend.py", line 3792, in __call__
+
+INFO:stderr:    
+INFO:stderr:outputs = self._graph_fn(*converted_inputs)
+INFO:stderr:
+
+INFO:stderr:  File "/home/manjos/.var/app/com.jetbrains.PyCharm-Professional/data/virtualenvs/NN-4UkdxUJt/lib/python3.7/site-packages/tensorflow/python/eager/function.py", line 1605, in __call__
+
+INFO:stderr:    
+INFO:stderr:return self._call_impl(args, kwargs)
+INFO:stderr:
+
+INFO:stderr:  File "/home/manjos/.var/app/com.jetbrains.PyCharm-Professional/data/virtualenvs/NN-4UkdxUJt/lib/python3.7/site-packages/tensorflow/python/eager/function.py", line 1645, in _call_impl
+
+INFO:stderr:    
+INFO:stderr:return self._call_flat(args, self.captured_inputs, cancellation_manager)
+INFO:stderr:
+
+INFO:stderr:  File "/home/manjos/.var/app/com.jetbrains.PyCharm-Professional/data/virtualenvs/NN-4UkdxUJt/lib/python3.7/site-packages/tensorflow/python/eager/function.py", line 1746, in _call_flat
+
+INFO:stderr:    
+INFO:stderr:ctx, args, cancellation_manager=cancellation_manager))
+INFO:stderr:
+
+INFO:stderr:  File "/home/manjos/.var/app/com.jetbrains.PyCharm-Professional/data/virtualenvs/NN-4UkdxUJt/lib/python3.7/site-packages/tensorflow/python/eager/function.py", line 598, in call
+
+INFO:stderr:    
+INFO:stderr:ctx=ctx)
+INFO:stderr:
+
+INFO:stderr:  File "/home/manjos/.var/app/com.jetbrains.PyCharm-Professional/data/virtualenvs/NN-4UkdxUJt/lib/python3.7/site-packages/tensorflow/python/eager/execute.py", line 60, in quick_execute
+
+INFO:stderr:    
+INFO:stderr:inputs, attrs, num_outputs)
+INFO:stderr:
+
+INFO:stderr:KeyboardInterrupt
+INFO:stderr:
+INFO:stderr:
+
