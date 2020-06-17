@@ -2,6 +2,9 @@ import heapq
 import os
 
 
+
+
+
 #Substitute character with weight and char with ind?
 
 
@@ -164,3 +167,13 @@ class HuffmanCoding:
 
         print("Decompressed")
         return output_path
+
+#from huffman import HuffmanCoding
+
+#input file path
+#path = "/home/ubuntu/Downloads/sample.txt"
+
+#h = HuffmanCoding(path)
+
+#output_path = h.compress()
+#h.decompress(output_path)
