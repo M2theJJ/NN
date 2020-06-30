@@ -358,13 +358,26 @@ from tensorflow.keras.models import Model
 #model = resnet_v1(input_shape, depth, num_classes=10)  # include here your original model
 num_layers = 20
 
-
 all_layers = list()
 for layer_index in range(num_layers):
     all_layers.append(model.get_layer(name=None, index=layer_index).output)
-    intermediate_layer_model = Model(inputs=model.get_layer(name=None, index=layer_index).input, outputs=model.get_layer(name=None, index=layer_index).output)
-    intermediate_output = intermediate_layer_model.predict(x_train)
-    print('Outputs:', intermediate_output)
+
+intermediate_layer_model = Model(inputs=model.input, outputs=model.get_layer(name=None, index=layer_index).output)
+
+data = x_train
+batch_size = data.shape[0] // num_batches
+for batch_idx in range(num_batches):
+       start = batch_idx * batch_size
+       end = start + batch_size
+       intermediate_output = intermediate_layer_model.predict(data[start:end])
+
+
+#all_layers = list()
+#for layer_index in range(num_layers):
+#    all_layers.append(model.get_layer(name=None, index=layer_index).output)
+#    intermediate_layer_model = Model(inputs=model.get_layer(name=None, index=layer_index).input, outputs=model.get_layer(name=None, index=layer_index).output)
+#    intermediate_output = intermediate_layer_model.predict(x_train)
+#    print('Outputs:', intermediate_output)
 #intermediate_layer_model = Model(input_shape=input_shape, outputs=all_layers)
 
 #for idx in range (50):
