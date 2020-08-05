@@ -11,6 +11,16 @@ import logging
 import sys
 from QuantizerD import Quantizer
 
+depth = 16
+version = 1
+
+# Subtracting pixel mean improves accuracy
+subtract_pixel_mean = True
+
+#num_classes for CIFAR_10 = 10
+num_classes = 10
+
+
 # Model name, depth and version
 model_type = 'ResNet%dv%d' % (depth, version)
 
@@ -38,6 +48,9 @@ print('y_train shape:', y_train.shape)
 # Convert class vectors to binary class matrices.
 y_train = tensorflow.keras.utils.to_categorical(y_train, num_classes)
 y_test = tensorflow.keras.utils.to_categorical(y_test, num_classes)
+
+#print('y_train', y_train)
+#print('y_test', y_test)
 
 def get_conv_block(tensor, channels, strides, alpha=1.0, name=''):
     channels = int(channels * alpha)
@@ -108,3 +121,4 @@ def MobileNet(shape, num_classes, alpha=1.0, include_top=True, weights=None):
         model.load_weights(weights, by_name=True)
 
     return model
+
