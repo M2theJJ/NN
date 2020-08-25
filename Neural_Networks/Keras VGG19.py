@@ -1,18 +1,23 @@
 from __future__ import print_function
-import keras
-from keras.datasets import cifar10
-from keras.preprocessing.image import ImageDataGenerator
-from keras.models import Sequential
-from keras.layers import Dense, Dropout, Activation, Flatten
-from keras.layers import Conv2D, MaxPooling2D, BatchNormalization
-from keras import optimizers
+import tensorflow.keras
+from tensorflow.keras.datasets import cifar10
+from tensorflow.keras.preprocessing.image import ImageDataGenerator
+from tensorflow.keras.models import Sequential
+from tensorflow.keras.layers import Dense, Dropout, Activation, Flatten
+from tensorflow.keras.layers import Conv2D, MaxPooling2D, BatchNormalization
+from tensorflow.keras import optimizers
 import numpy as np
-from keras.layers.core import Lambda
-from keras import backend as K
-from keras import regularizers
+import os
+import logging
+import sys
+#from tensorflow.keras.layers.core import Lambda
+from tensorflow.keras import backend as K
+from tensorflow.keras import regularizers
 
-class cifar10vgg:
+class cifar10vgg(tensorflow.keras.Model):  #model removable and instead leave empy braccets
+
     def __init__(self,train=True):
+        super(cifar10vgg, self).__init__() #if remove keras model remove this line
         self.num_classes = 10
         self.weight_decay = 0.0005
         self.x_shape = [32,32,3]
@@ -112,7 +117,10 @@ class cifar10vgg:
         model.add(Dropout(0.5))
         model.add(Dense(self.num_classes))
         model.add(Activation('softmax'))
+
         return model
+
+        #60 layers
 
 
     def normalize(self,X_train,X_test):
@@ -145,7 +153,7 @@ class cifar10vgg:
 
         #training parameters
         batch_size = 128
-        maxepoches = 250
+        maxepoches = 0 #orig. 250
         learning_rate = 0.1
         lr_decay = 1e-6
         lr_drop = 20
@@ -155,12 +163,12 @@ class cifar10vgg:
         x_test = x_test.astype('float32')
         x_train, x_test = self.normalize(x_train, x_test)
 
-        y_train = keras.utils.to_categorical(y_train, self.num_classes)
-        y_test = keras.utils.to_categorical(y_test, self.num_classes)
+        y_train = tensorflow.keras.utils.to_categorical(y_train, self.num_classes)
+        y_test = tensorflow.keras.utils.to_categorical(y_test, self.num_classes)
 
         def lr_scheduler(epoch):
             return learning_rate * (0.5 ** (epoch // lr_drop))
-        reduce_lr = keras.callbacks.LearningRateScheduler(lr_scheduler)
+        reduce_lr = tensorflow.keras.callbacks.LearningRateScheduler(lr_scheduler)
 
         #data augmentation
         datagen = ImageDataGenerator(
@@ -194,20 +202,45 @@ class cifar10vgg:
         model.save_weights('cifar10vgg.h5')
         return model
 
-if __name__ == '__main__':
+#    def getoutput(self,model):
+#        # Get Output Layers
+#
+#        num_layers = 60
+#        all_layers = list()
+#        for layer_index in range(1, num_layers):
+#            all_layers.append(model.get_layer(name=None, index=layer_index).output)
+#
+#        intermediate_layer_model_input = model.input
+#        intermediate_layer_model = model(inputs=intermediate_layer_model_input, outputs=all_layers)
 
+#        print(model)
+
+#    def getoutput(self,model):
+
+
+
+
+
+if __name__ == '__main__':
 
     (x_train, y_train), (x_test, y_test) = cifar10.load_data()
     x_train = x_train.astype('float32')
     x_test = x_test.astype('float32')
 
-    y_train = keras.utils.to_categorical(y_train, 10)
-    y_test = keras.utils.to_categorical(y_test, 10)
+    y_train = tensorflow.keras.utils.to_categorical(y_train, 10)
+    y_test = tensorflow.keras.utils.to_categorical(y_test, 10)
 
     model = cifar10vgg()
+    # -----------------------------------------------------------------------------------------------------------------------
+    # Get Output Layers
+    model.get_layer(name=None, index=0)
+
+    # -----------------------------------------------------------------------------------------------------------------------
 
     predicted_x = model.predict(x_test)
     residuals = np.argmax(predicted_x,1)!=np.argmax(y_test,1)
 
     loss = sum(residuals)/len(residuals)
     print("the validation 0/1 loss is: ",loss)
+
+

@@ -8,11 +8,12 @@ verify_ssl = true
 [packages]
 model = "*"
 keras = "*"
-numpy = "*"
+numpy = "==1.19.1"
 tensorflow = "*"
 hardware = "*"
 tensorflow-model-optimization = "*"
 theanolm = "*"
+pydot = "*"
 
 [requires]
 python_version = "3.7"

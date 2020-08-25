@@ -69,11 +69,11 @@ def main():
     file.close()
 
 
-def parse(file):
-    r = []
-    f = open(file, "rb")
-    text = f.read()
-    return text
+#def parse(file):
+#    r = []
+#    f = open(file, "rb")
+#    text = f.read()
+#    return text
 
 
 if __name__ == "__main__":
