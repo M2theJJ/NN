@@ -1,6 +1,13 @@
-def encodeLZ(FileIn, FileOut):
-    input_file = open(FileIn, 'r')
-    encoded_file = open(FileOut, 'w')
+from Extras import RAS
+import numpy as np
+
+stringIn = np.random.randint(1, 101, 8)
+print(stringIn)
+stringOut = stringIn
+
+def encodeLZ(stringIn, stringOut):
+    input_file = open(stringIn, 'r')
+    encoded_file = open(stringOut, 'w')
     text_from_file = input_file.read()
     dict_of_codes = {text_from_file[0]: '1'}
     encoded_file.write('0' + text_from_file[0])
@@ -18,7 +25,7 @@ def encodeLZ(FileIn, FileOut):
             code += 1
             combination = ''
     input_file.close()
-    encoded_file.close()
+    encoded_file.clo0se()
     return True
 
 
@@ -43,5 +50,8 @@ def decodeLZ(FileIn, FileOut):
     decoded_file.close()
 
 
-encodeLZ('input.txt', 'encoded.txt')
-decodeLZ('encoded.txt', 'decoded.txt')
+#encodeLZ('input.txt', 'encoded.txt')
+#decodeLZ('encoded.txt', 'decoded.txt')
+
+encodeLZ(stringIn, stringOut=stringOut)
+#decodeLZ('encoded.txt', 'decoded.txt')

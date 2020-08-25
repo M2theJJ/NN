@@ -1,10 +1,11 @@
 # Huffman Coding in python
-from Extras import Try
+from Extras import RAS
 
-string = '1Ea5'
 
-#string = Try.random_array_to_string()
+#string = '1Ea5'
 
+#string = RAS.array_to_string()
+print(string)
 
 # Creating tree nodes
 class NodeTree(object):
@@ -61,3 +62,5 @@ print(' Char | Huffman code ')
 print('----------------------')
 for (char, frequency) in freq:
     print(' %-4r |%12s' % (char, huffmanCode[char]))
+print(freq)
+print(huffmanCode)

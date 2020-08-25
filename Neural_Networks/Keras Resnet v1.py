@@ -252,6 +252,9 @@ else:
 
 #model = Quantizer.apply_quantization(model)
 
+
+#--------------------------------------------------------------------------------
+#Get Output
 num_layers = 20
 all_layers = list()
 for layer_index in range(1, num_layers):
@@ -259,7 +262,7 @@ for layer_index in range(1, num_layers):
 
 intermediate_layer_model_input = model.input
 intermediate_layer_model = Model(inputs=intermediate_layer_model_input, outputs=all_layers)
-
+#---------------------------------------------------------------------------------
 
 model.compile(loss='categorical_crossentropy',
               optimizer=Adam(learning_rate=lr_schedule(0)),

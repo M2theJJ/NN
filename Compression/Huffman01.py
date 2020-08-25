@@ -1,11 +1,12 @@
 import heapq
 import os
+from Extras import RAS
 
 
 
+string = RAS.array_to_string()
+print(string)
 
-
-#Substitute character with weight and char with ind?
 
 
 class HeapNode:

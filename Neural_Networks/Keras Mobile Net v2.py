@@ -23,3 +23,11 @@ tf.keras.applications.MobileNetV2(
     classifier_activation="softmax",
     **kwargs
 )
+
+num_layers = 20
+all_layers = list()
+for layer_index in range(1, num_layers):
+    all_layers.append(model.get_layer(name=None, index=layer_index).output)
+
+intermediate_layer_model_input = model.input
+intermediate_layer_model = Model(inputs=intermediate_layer_model_input, outputs=all_layers)
