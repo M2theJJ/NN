@@ -45,6 +45,8 @@ head_min  = 1 << head_precision - tail_precision
 #          head    , tail
 msg_init = head_min, ()
 
+
+
 def append(msg, start, prob, precision):
     """
     Encodes a symbol with range `[start, start + prob)`.  All `prob`s are

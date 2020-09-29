@@ -44,7 +44,7 @@ def main():
     MAXLH = int(math.pow(2, (x - (math.log(MAXSEARCH, 2)))))
 
     file_to_read = sys.argv[1]
-    input = parse(file_to_read)
+    input = parse(file_to_read) # parse is function that opens file
     file = open("compressed.bin", "wb")
     searchiterator = 0;
     lhiterator = 0;

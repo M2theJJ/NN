@@ -7,6 +7,7 @@ Authors
 from __future__ import division, print_function
 import numpy as np
 
+
 arr = np.random.randint(3, size=(5, 5))
 #arr = 5 * np.random.random_sample((3, 2)) - 5
 arr = arr.flatten()
@@ -232,10 +233,12 @@ print('simplify s', simp[0])
 print('simplify l', simp[1])
 print('simplify v', simp[2])
 
-#fill_gaps
-fg = fill_gaps(s, v, l, None, np.nan)
-fs = fg[0]
-fv = fg[1]
-fl = fg[2]
+#fill_gaps - doesn't work with int array or float array don't understand the problem...
+#fg = fill_gaps(s, v, l, None, np.nan)
+#print('fill_gaps', fg)
 
-print('fill_gaps', fg)
+#impute_missing(starts, lengths, values, terminal_values=(0, 0)):
+missing = impute_missing(s, l, v)
+print('missing starts', missing[0])
+print('missing lenghts', missing[1])
+print('missing values', missing[2])

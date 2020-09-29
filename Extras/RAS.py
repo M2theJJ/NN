@@ -33,7 +33,7 @@ def convert_list_to_string(arr, seperator=' '):
     return seperator.join(arr)
 # Convert list of strings to string
 full_str = convert_list_to_string(arr)
-print('string', full_str)
+#print('string', full_str)
 
 #List to Byteslike
 def convert_list_to_bytes(array):
@@ -44,7 +44,7 @@ def convert_list_to_bytes(array):
     #True
     return bytes_of_values
 bytes = convert_list_to_bytes(array)
-print('bytes', bytes)
+#print('bytes', bytes)
 
 
 #Hex to bytes
@@ -52,7 +52,7 @@ def convert_bytes_to_hex(bytes):
     hex = binascii.hexlify(bytes)
     return hex
 hex = convert_bytes_to_hex(bytes)
-print('hex', hex)
+#print('hex', hex)
 
 #Bytes to ASCII
 def convert_bytes_to_ASCII(bytes):
@@ -61,6 +61,6 @@ def convert_bytes_to_ASCII(bytes):
     ASCII = c[0:100000000].decode("ascii") #c[x:y], what is x and what is y?
     return ASCII
 ASCII = convert_bytes_to_ASCII(bytes)
-print('ASCII', ASCII)
+#print('ASCII', ASCII)
 
 
