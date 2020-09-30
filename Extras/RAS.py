@@ -4,10 +4,15 @@ import binascii
 #Creates random Array
 
 #array = np.random.randint(1, 101, 8)
+<<<<<<< HEAD
 #array = np.random.randint(101, 8) #array with 0s
 array = np.random.randint(1, 101, size=(3, 3))
 #array = [55, 33, 22]
 #arr = 5 * np.random.random_sample((3, 2)) - 5 #from -5 to 0 / (b - a) * random_sample() + a
+=======
+array = np.random.randint(1, 101, size=(3, 3))
+#array = [55, 33, 22]
+>>>>>>> NN/master
 #print (array)
 
 
@@ -33,7 +38,11 @@ def convert_list_to_string(arr, seperator=' '):
     return seperator.join(arr)
 # Convert list of strings to string
 full_str = convert_list_to_string(arr)
+<<<<<<< HEAD
 #print('string', full_str)
+=======
+print('string', full_str)
+>>>>>>> NN/master
 
 #List to Byteslike
 def convert_list_to_bytes(array):
@@ -44,7 +53,11 @@ def convert_list_to_bytes(array):
     #True
     return bytes_of_values
 bytes = convert_list_to_bytes(array)
+<<<<<<< HEAD
 #print('bytes', bytes)
+=======
+print('bytes', bytes)
+>>>>>>> NN/master
 
 
 #Hex to bytes
@@ -52,7 +65,11 @@ def convert_bytes_to_hex(bytes):
     hex = binascii.hexlify(bytes)
     return hex
 hex = convert_bytes_to_hex(bytes)
+<<<<<<< HEAD
 #print('hex', hex)
+=======
+print('hex', hex)
+>>>>>>> NN/master
 
 #Bytes to ASCII
 def convert_bytes_to_ASCII(bytes):
@@ -61,6 +78,10 @@ def convert_bytes_to_ASCII(bytes):
     ASCII = c[0:100000000].decode("ascii") #c[x:y], what is x and what is y?
     return ASCII
 ASCII = convert_bytes_to_ASCII(bytes)
+<<<<<<< HEAD
 #print('ASCII', ASCII)
+=======
+print('ASCII', ASCII)
+>>>>>>> NN/master
 
 
