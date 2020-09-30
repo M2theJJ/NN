@@ -8,6 +8,8 @@ import binascii
 array = np.random.randint(1, 101, size=(3, 3))
 #array = [55, 33, 22]
 #arr = 5 * np.random.random_sample((3, 2)) - 5 #from -5 to 0 / (b - a) * random_sample() + a
+array = np.random.randint(1, 101, size=(3, 3))
+#array = [55, 33, 22]
 #print (array)
 
 
@@ -34,6 +36,7 @@ def convert_list_to_string(arr, seperator=' '):
 # Convert list of strings to string
 full_str = convert_list_to_string(arr)
 #print('string', full_str)
+print('string', full_str)
 
 #List to Byteslike
 def convert_list_to_bytes(array):
@@ -45,6 +48,8 @@ def convert_list_to_bytes(array):
     return bytes_of_values
 bytes = convert_list_to_bytes(array)
 #print('bytes', bytes)
+print('bytes', bytes)
+
 
 
 #Hex to bytes
@@ -53,6 +58,7 @@ def convert_bytes_to_hex(bytes):
     return hex
 hex = convert_bytes_to_hex(bytes)
 #print('hex', hex)
+print('hex', hex)
 
 #Bytes to ASCII
 def convert_bytes_to_ASCII(bytes):
@@ -62,5 +68,21 @@ def convert_bytes_to_ASCII(bytes):
     return ASCII
 ASCII = convert_bytes_to_ASCII(bytes)
 #print('ASCII', ASCII)
+print('ASCII', ASCII)
 
+#array to txt
+def convert_array_to_txt(array):
+    text = np.savetxt("array.txt", array, fmt="%s")
+    return text
+text = convert_array_to_txt(arr)
+print(type(text))
+print('text', "array.txt")
 
+#txt to array
+def convert_txt_to_array(fileName): #fileName in array to txt definded
+        fileObj = open(fileName, "r")  # opens the file in read mode
+        words = fileObj.read().splitlines()  # puts the file into an array
+        fileObj.close()
+        return words
+a_f_t = convert_txt_to_array("array.txt")
+print('array from text', a_f_t)

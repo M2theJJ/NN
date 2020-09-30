@@ -7,7 +7,7 @@ import numpy as np
 arr = np.random.randint(1, 101, size=(5, 5))
 
 
-string = RAS.array_to_list(arr)
+string = RAS.convert_array_to_list(arr)
 #print(string)
 
 # Creating tree nodes

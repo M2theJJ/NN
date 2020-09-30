@@ -3,7 +3,14 @@
 import struct
 import sys
 import math
+import numpy as np
 
+
+
+arr = np.random.randint(1, 101, size=(3, 3))
+text = np.savetxt("array.txt", arr, fmt="%s")
+with open('array.txt', 'r') as f:
+    print('read', f.read())
 
 def LZ77_search(search, look_ahead):
     ls = len(search)
@@ -20,7 +27,7 @@ def LZ77_search(search, look_ahead):
     buf = search + look_ahead
 
     search_pointer = ls
-    # print( "search: " , search, " lookahead: ", look_ahead)
+    #print( "search: " , search, " lookahead: ", look_ahead)
     for i in range(0, ls):
         length = 0
         while buf[i + length] == buf[search_pointer + length]:
@@ -69,11 +76,11 @@ def main():
     file.close()
 
 
-#def parse(file):
-#    r = []
-#    f = open(file, "rb")
-#    text = f.read()
-#    return text
+def parse(file): #need to solve this - when putting in array.txt directly it workes but if sys.argv is array.txt that gets put in here it doesn't work
+    r = []
+    f = open('array.txt', "rb")
+    text = f.read()
+    return text
 
 
 if __name__ == "__main__":
