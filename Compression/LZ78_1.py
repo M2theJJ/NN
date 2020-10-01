@@ -1,9 +1,20 @@
 from Extras import RAS
 import numpy as np
 
-stringIn = np.random.randint(1, 101, 8)
-print(stringIn)
+array = np.random.randint(1, 101, 8)
+print(array)
+#text = RAS.convert_array_to_text(array)
+f = open('array.txt', "rb")
+#    f = open('array.txt', "rb")
+#    f = open(sys.argv[1], "rb")
+text = f.read()
+stringIn = text
+print('stringIn', stringIn)
+#list = RAS.convert_array_to_list(array)
+#stringIn = list
+#stringIn = RAS.convert_list_to_string(list)
 stringOut = stringIn
+
 
 def encodeLZ(stringIn, stringOut):
     input_file = open(stringIn, 'r')

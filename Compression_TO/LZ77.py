@@ -5,9 +5,18 @@ from bitarray import bitarray
 
 
 arr = np.random.randint(1, 101, size=(3, 3))
+print('array', arr)
+bytes = bytes(arr)
+print('bytes', bytes)
+f = open("bytes.txt", "wb")
+f.write(bytes)
+f.close()
+with open('bytes.txt', 'r') as f:
+    print('read bytes', f.read())
 text = np.savetxt("array.txt", arr, fmt="%s")
 with open('array.txt', 'r') as f:
-    print('read', f.read())
+    print('read array', f.read())
+
 
 class lz77:
     """It is python implementation of well known compression algorithm
@@ -65,6 +74,8 @@ class lz77:
 
             It will write the compressed data in
         """
+        with open('array.txt', 'rb') as f:
+            print('read', f.read())
         try:
             with open(file, 'rb') as f:
                 s = list(f.read())
@@ -72,12 +83,18 @@ class lz77:
             print
             'Unable to open file'
             exit(1)
-        # print s
+        print('s', s)
         outFile = file.split('.')
+        print('OutFile', outFile)
         ext = outFile[-1]
+        print('ext', ext)
         outFile = ''.join(outFile[:-1] + ['.lz77'])
         l = len(ext)
+        print('l', l)
         out = bitarray(endian='big')
+        print('out', out)
+        print(type(out))
+        print('chr', chr(l))
         out.frombytes(chr(l))
         for i in ext:
             out.frombytes(i)
@@ -198,10 +215,11 @@ class lz77:
             'Unable to write decompressed file'
             exit()
 
-l = lz77
-print('compression', l.compress("array.txt", False))
-comp = l.compress("array.txt")
+l = lz77()
+comp = l.compress(file="bytes.txt", DEBUG=True)
+print('compression', comp)
 print('decompression', l.decompress("array.txt"))
+
 '''if __name__ == '__main__':
     arg = sys.argv[1:]
     if arg[0] == '-h' or arg[0] == '--h' or arg[0] == '-help':

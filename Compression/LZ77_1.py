@@ -8,14 +8,27 @@ import numpy as np
 
 
 arr = np.random.randint(1, 101, size=(3, 3))
+print('array', arr)
+bytes = bytes(arr)
+print('bytes', bytes)
+f = open("bytes.txt", "wb")
+f.write(bytes)
+f.close()
+with open('bytes.txt', 'r') as f:
+    print('read bytes', f.read())
 text = np.savetxt("array.txt", arr, fmt="%s")
 with open('array.txt', 'r') as f:
-    print('read', f.read())
+    print('read array', f.read())
+
+
 
 def LZ77_search(search, look_ahead):
     ls = len(search)
     llh = len(look_ahead)
-
+    print('search', search)
+    print('look_ahead', look_ahead)
+    print('ls', ls)
+    print('llh', llh)
     if (ls == 0):
         return (0, 0, look_ahead[0])
 
@@ -25,9 +38,8 @@ def LZ77_search(search, look_ahead):
     best_length = 0
     best_offset = 0
     buf = search + look_ahead
-
     search_pointer = ls
-    #print( "search: " , search, " lookahead: ", look_ahead)
+    print( "search: " , search, " lookahead: ", look_ahead)
     for i in range(0, ls):
         length = 0
         while buf[i + length] == buf[search_pointer + length]:
@@ -40,6 +52,7 @@ def LZ77_search(search, look_ahead):
         if length > best_length:
             best_offset = i
             best_length = length
+    print('we got here')
 
     return (best_offset, best_length, buf[search_pointer + best_length])
 
@@ -49,7 +62,8 @@ def main():
     x = 16
     MAXSEARCH = int(sys.argv[2])
     MAXLH = int(math.pow(2, (x - (math.log(MAXSEARCH, 2)))))
-
+    print('MAXSEARCH', MAXSEARCH)
+    print('MAXLH', MAXLH)
     file_to_read = sys.argv[1]
     input = parse(file_to_read) # parse is function that opens file
     file = open("compressed.bin", "wb")
@@ -60,7 +74,7 @@ def main():
         search = input[searchiterator:lhiterator]
         look_ahead = input[lhiterator:lhiterator + MAXLH]
         (offset, length, char) = LZ77_search(search, look_ahead)
-        # print (offset, length, char)
+        print ('offset, length, char',offset, length, char)
 
         shifted_offset = offset << 6
         offset_and_length = shifted_offset + length
@@ -78,7 +92,9 @@ def main():
 
 def parse(file): #need to solve this - when putting in array.txt directly it workes but if sys.argv is array.txt that gets put in here it doesn't work
     r = []
-    f = open('array.txt', "rb")
+    f = open('bytes.txt', "rb")
+#    f = open('array.txt', "rb")
+#    f = open(sys.argv[1], "rb")
     text = f.read()
     return text
 
@@ -138,8 +154,8 @@ def decoder(name, out, search):
 
 
 def main():
-    MAX_SEARCH = int(sys.argv[1])
-    file_type = sys.argv[2]
+    MAX_SEARCH = int(sys.argv[1]) #should be argv 2 from main encode
+    file_type = sys.argv[2] #should be argv 1 from main encode
     processed = open("processed." + file_type, "wb")
     decoder("compressed.bin", processed, MAX_SEARCH)
     processed.close
