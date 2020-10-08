@@ -58,7 +58,7 @@ def decompress(compressed):
         w = entry
     return result.getvalue()
 
-array = np.random.randint(1, 101, size=(10, 10))
+array = np.random.randint(1, 101, size=(3, 3))
 array = array.flatten()
 print('array', array)
 list = RAS.convert_array_to_list(array)
