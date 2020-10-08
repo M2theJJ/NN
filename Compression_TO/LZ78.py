@@ -1,61 +1,82 @@
-#https://github.com/DyakoVlad/python-LZ78
+from Extras import RAS
 import numpy as np
+import sys
+
+def compress(uncompressed):
+    """Compress a string to a list of output symbols."""
+
+    # Build the dictionary.
+    dict_size = 256
+    #dictionary = dict((chr(i), chr(i)) for i in xrange(dict_size))
+    dictionary = {chr(i): chr(i) for i in range(dict_size)}
+
+    w = ""
+    result = []
+    for c in uncompressed:
+        wc = w + c
+        if wc in dictionary:
+            w = wc
+        else:
+            result.append(dictionary[w])
+            # Add wc to the dictionary.
+            dictionary[wc] = dict_size
+            dict_size += 1
+            w = c
+            #print("dictionary", dictionary)
+
+    # Output the code for w.
+    if w:
+        result.append(dictionary[w])
+    return result
+
+##check loop and dictionary
+#16bit entry doesnt fit dictionary
+
+
+def decompress(compressed):
+    """Decompress a list of output ks to a string."""
+    from io import StringIO
+
+    # Build the dictionary.
+    dict_size = 256
+    #dictionary = dict((chr(i), chr(i)) for i in xrange(dict_size))
+    dictionary = {chr(i): chr(i) for i in range(dict_size)}
+
+    # use StringIO, otherwise this becomes O(N^2)
+    # due to string concatenation in a loop
+    result = StringIO()
+    w = compressed.pop(0)
+    result.write(w)
+    for k in compressed:
+        if k in dictionary:
+            entry = dictionary[k]
+        elif k == dict_size:
+            entry = w + w[0]
+        else:
+            raise ValueError('Bad compressed k: %s' % k)
+        result.write(entry)
+
+        # Add w+entry[0] to the dictionary.
+        dictionary[dict_size] = w + entry[0]
+        dict_size += 1
+
+        w = entry
+    return result.getvalue()
 
 array = np.random.randint(1, 101, size=(3, 3))
-#array = 5 * np.random.random_sample((3, 2)) - 5
-print(array)
-file = text = np.savetxt("stringIn.txt", array, fmt="%s")
-EncodeIn = 'stringIn.txt'
-EndcodeOut = 'stringOut.txt'
-DecodeOut = 'd_stringOut.txt'
-
-def encodeLZ(stringIn, stringOut):
-    input_file = open(stringIn, 'r')
-    encoded_file = open(stringOut, 'w')
-    text_from_file = input_file.read()
-    dict_of_codes = {text_from_file[0]: '1'}
-    encoded_file.write('0' + text_from_file[0])
-    text_from_file = text_from_file[1:]
-    combination = ''
-    code = 2
-    for char in text_from_file:
-        combination += char
-        if combination not in dict_of_codes:
-            dict_of_codes[combination] = str(code)
-            if len(combination) == 1:
-                encoded_file.write('0' + combination)
-            else:
-                encoded_file.write(dict_of_codes[combination[0:-1]] + combination[-1])
-            code += 1
-            combination = ''
-    input_file.close()
-    encoded_file.close()
-    return True
+array = array.flatten()
+list = RAS.convert_array_to_list(array)
+#print('list', list)
+string = RAS.convert_list_to_string(list)
+# How to use:
+#compressed = compress('TOBEORNOTTOBEORTOBEORNOT')
+compressed = compress(string)
+s_c = sys.getsizeof(compressed)
+print( 'size', print(s_c)) #why size none if compressed is an object?
+print ('compressed', compressed, 'lenght', len(compressed))
+decompressed = decompress(compressed)
+print ('decompressed', decompressed, 'lenght', len(decompressed))
+print('Ration:', len(compressed) / len(decompressed))
 
 
-def decodeLZ(FileIn, FileOut):
-    coded_file = open(FileIn, 'r')
-    decoded_file = open(FileOut, 'w')
-    text_from_file = coded_file.read()
-    dict_of_codes = {'0': '', '1': text_from_file[1]}
-    decoded_file.write(dict_of_codes['1'])
-    text_from_file = text_from_file[2:]
-    combination = ''
-    code = 2
-    for char in text_from_file:
-        if char in '1234567890':
-            combination += char
-        else:
-            dict_of_codes[str(code)] = dict_of_codes[combination] + char
-            decoded_file.write(dict_of_codes[combination] + char)
-            combination = ''
-            code += 1
-    coded_file.close()
-    decoded_file.close()
-
-
-#encodeLZ('input.txt', 'encoded.txt')
-#decodeLZ('encoded.txt', 'decoded.txt')
-
-encodeLZ(EncodeIn, EndcodeOut)
-decodeLZ(EndcodeOut, DecodeOut)
+#works properly with a ration < 1

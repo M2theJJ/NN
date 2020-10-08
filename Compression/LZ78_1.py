@@ -1,73 +1,70 @@
-from Extras import RAS
+#https://github.com/DyakoVlad/python-LZ78
 import numpy as np
 
-def compress(uncompressed):
-    """Compress a string to a list of output symbols."""
+array = np.random.randint(1, 101, size=(3, 3))
+#array = 5 * np.random.random_sample((3, 2)) - 5
+#array = array.flatten()
+print(array)
+file = text = np.savetxt("stringIn.txt", array, fmt="%s")
+EncodeIn = 'stringIn.txt'
+EndcodeOut = 'stringOut.txt'
+DecodeOut = 'd_stringOut.txt'
 
-    # Build the dictionary.
-    dict_size = 256
-    #dictionary = dict((chr(i), chr(i)) for i in xrange(dict_size))
-    dictionary = {chr(i): chr(i) for i in range(dict_size)}
+def encodeLZ(stringIn, stringOut):
+    input_file = open(stringIn, 'r')
+    encoded_file = open(stringOut, 'w')
+    text_from_file = input_file.read()
+    dict_of_codes = {text_from_file[0]: '1'}
+    encoded_file.write('0' + text_from_file[0])
+    text_from_file = text_from_file[1:]
+    combination = ''
+    code = 2
+    for char in text_from_file:
+        combination += char
+        if combination not in dict_of_codes:
+            dict_of_codes[combination] = str(code)
+            if len(combination) == 1:
+                encoded_file.write('0' + combination)
+            else:
+                encoded_file.write(dict_of_codes[combination[0:-1]] + combination[-1])
+            code += 1
+            combination = ''
+    print('dict of code', dict_of_codes)
+    input_file.close()
+    encoded_file.close()
+    return dict_of_codes
 
-    w = ""
-    result = []
-    for c in uncompressed:
-        wc = w + c
-        if wc in dictionary:
-            w = wc
+##use dictionary used in encode pass to decode store dictionary in encode and put it in decode
+
+
+def decodeLZ(FileIn, FileOut, dict_of_codes):
+    coded_file = open(FileIn, 'r')
+    decoded_file = open(FileOut, 'w')
+    text_from_file = coded_file.read()
+    #my try
+    dict_of_codes = dict_of_codes
+#original    dict_of_codes = {'0': '', '1': text_from_file[1]}
+    decoded_file.write(dict_of_codes['1'])
+    text_from_file = text_from_file[2:]
+    combination = ''
+    code = 2
+    for char in text_from_file:
+        if char in '1234567890' or ' ':
+            print('if', char)
+            combination += char
         else:
-            result.append(dictionary[w])
-            # Add wc to the dictionary.
-            dictionary[wc] = dict_size
-            dict_size += 1
-            w = c
-
-    # Output the code for w.
-    if w:
-        result.append(dictionary[w])
-    return result
+            print('else', char)
+            dict_of_codes[str(code)] = dict_of_codes[combination] + char
+            decoded_file.write(dict_of_codes[combination] + char)
+            combination = ''
+            code += 1
+    coded_file.close()
+    decoded_file.close()
 
 
-def decompress(compressed):
-    """Decompress a list of output ks to a string."""
-    from io import StringIO
+#encodeLZ('input.txt', 'encoded.txt')
+#decodeLZ('encoded.txt', 'decoded.txt')
 
-    # Build the dictionary.
-    dict_size = 256
-    #dictionary = dict((chr(i), chr(i)) for i in xrange(dict_size))
-    dictionary = {chr(i): chr(i) for i in range(dict_size)}
-
-    # use StringIO, otherwise this becomes O(N^2)
-    # due to string concatenation in a loop
-    result = StringIO()
-    w = compressed.pop(0)
-    result.write(w)
-    for k in compressed:
-        if k in dictionary:
-            entry = dictionary[k]
-        elif k == dict_size:
-            entry = w + w[0]
-        else:
-            raise ValueError('Bad compressed k: %s' % k)
-        result.write(entry)
-
-        # Add w+entry[0] to the dictionary.
-        dictionary[dict_size] = w + entry[0]
-        dict_size += 1
-
-        w = entry
-    return result.getvalue()
-
-array = np.random.randint(1, 101, size=(10, 10))
-array = array.flatten()
-print('array', array)
-list = RAS.convert_array_to_list(array)
-#print('list', list)
-string = RAS.convert_list_to_string(list)
-print('string', string)
-# How to use:
-#compressed = compress('TOBEORNOTTOBEORTOBEORNOT')
-compressed = compress(string)
-print ('compressed', compressed)
-decompressed = decompress(compressed)
-print ('decompressed', decompressed)
+#encodeLZ(EncodeIn, EndcodeOut)
+dict_of_codes = encodeLZ(EncodeIn, EndcodeOut)
+decodeLZ(EndcodeOut, DecodeOut, dict_of_codes)

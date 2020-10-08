@@ -16,6 +16,8 @@ theanolm = "*"
 pydot = "*"
 bitarray = "==1.5.3"
 io = "*"
+priorityqueue = "==1.3.0"
+bitstring = "*"
 
 [requires]
 python_version = "3.7"

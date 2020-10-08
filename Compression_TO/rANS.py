@@ -111,11 +111,11 @@ def unflatten(arr):
             reduce(lambda tl, hd: (int(hd), tl), reversed(arr[2:]), ()))
 
 array = array.flatten()
-print('array', array)
+print('1D array', array)
 msg = unflatten(array)
-print('msg', msg)
+print('array into rANS msg', msg)
 array = flatten(msg)
-print('array again', array)
+print('rANS msg into array', array)
 precision = 7 #set to 2**7 = 128 = range of rand.int.array - not quite sure how precision settings change compression rate
 e = append(msg, 0, 8, precision)
 print('encoded', e)
@@ -170,3 +170,5 @@ def test_flatten_unflatten():
     assert np.all(flat == flat_)
 
 test_f_u = test_flatten_unflatten()
+
+#check the test_rans to see where problem lies exactly and fix

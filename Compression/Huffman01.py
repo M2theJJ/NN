@@ -1,11 +1,15 @@
 import heapq
 import os
+import numpy as np
 from Extras import RAS
 
 
 
-string = RAS.array_to_string()
-print(string)
+arr = np.random.randint(1, 101, size=(100, 100))
+
+
+string = RAS.convert_array_to_list(arr)
+
 
 
 

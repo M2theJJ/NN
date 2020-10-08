@@ -8,7 +8,7 @@ from __future__ import division, print_function
 import numpy as np
 
 
-arr = np.random.randint(3, size=(5, 5))
+arr = np.random.randint(1, 9, size=(5, 5))
 #arr = 5 * np.random.random_sample((3, 2)) - 5
 arr = arr.flatten()
 print('1D array', arr)
@@ -196,15 +196,22 @@ e = rlencode(arr)
 s = e[0]
 l = e[1]
 v = e[2]
+length = len(arr)
 #print('endcoded', e)
-print('starts', e[0])
-print('lenghts', e[1])
-print('values', e[2])
+print('e_starts', e[0])
+print('e_lenghts', e[1])
+print('e_values', e[2])
+
+print(' value | length ')
+print('----------------')
+for x in range(len(l)):
+    print(' %-4r |%12s' % (v[x], l[x]))
+
 
 #rldecode
 d = rldecode(s, l, v)
 print('decoded', d)
-
+'''
 #iterruns
 iterruns = iterruns(arr)
 print('iterruns', iterruns)
@@ -242,3 +249,8 @@ missing = impute_missing(s, l, v)
 print('missing starts', missing[0])
 print('missing lenghts', missing[1])
 print('missing values', missing[2])
+
+'''
+
+
+#check if properly working don't get where encoded and decoded come out - then chekc if encoded is smaller then original and if decoded is same as original

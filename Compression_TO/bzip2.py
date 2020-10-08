@@ -18,4 +18,4 @@ d = bz2.decompress(c)
 data == d # Check equality to original object after round-trip
 print('decompressed', d)
 
-#where does the RAS print() come from?
+#works properly so far
