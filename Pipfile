@@ -15,6 +15,7 @@ tensorflow-model-optimization = "*"
 theanolm = "*"
 pydot = "*"
 bitarray = "==1.5.3"
+io = "*"
 
 [requires]
 python_version = "3.7"

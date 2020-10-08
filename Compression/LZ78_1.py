@@ -1,68 +1,73 @@
 from Extras import RAS
 import numpy as np
 
-array = np.random.randint(1, 101, 8)
-print(array)
-#text = RAS.convert_array_to_text(array)
-f = open('array.txt', "rb")
-#    f = open('array.txt', "rb")
-#    f = open(sys.argv[1], "rb")
-text = f.read()
-stringIn = text
-print('stringIn', stringIn)
-#list = RAS.convert_array_to_list(array)
-#stringIn = list
-#stringIn = RAS.convert_list_to_string(list)
-stringOut = stringIn
+def compress(uncompressed):
+    """Compress a string to a list of output symbols."""
 
+    # Build the dictionary.
+    dict_size = 256
+    #dictionary = dict((chr(i), chr(i)) for i in xrange(dict_size))
+    dictionary = {chr(i): chr(i) for i in range(dict_size)}
 
-def encodeLZ(stringIn, stringOut):
-    input_file = open(stringIn, 'r')
-    encoded_file = open(stringOut, 'w')
-    text_from_file = input_file.read()
-    dict_of_codes = {text_from_file[0]: '1'}
-    encoded_file.write('0' + text_from_file[0])
-    text_from_file = text_from_file[1:]
-    combination = ''
-    code = 2
-    for char in text_from_file:
-        combination += char
-        if combination not in dict_of_codes:
-            dict_of_codes[combination] = str(code)
-            if len(combination) == 1:
-                encoded_file.write('0' + combination)
-            else:
-                encoded_file.write(dict_of_codes[combination[0:-1]] + combination[-1])
-            code += 1
-            combination = ''
-    input_file.close()
-    encoded_file.clo0se()
-    return True
-
-
-def decodeLZ(FileIn, FileOut):
-    coded_file = open(FileIn, 'r')
-    decoded_file = open(FileOut, 'w')
-    text_from_file = coded_file.read()
-    dict_of_codes = {'0': '', '1': text_from_file[1]}
-    decoded_file.write(dict_of_codes['1'])
-    text_from_file = text_from_file[2:]
-    combination = ''
-    code = 2
-    for char in text_from_file:
-        if char in '1234567890':
-            combination += char
+    w = ""
+    result = []
+    for c in uncompressed:
+        wc = w + c
+        if wc in dictionary:
+            w = wc
         else:
-            dict_of_codes[str(code)] = dict_of_codes[combination] + char
-            decoded_file.write(dict_of_codes[combination] + char)
-            combination = ''
-            code += 1
-    coded_file.close()
-    decoded_file.close()
+            result.append(dictionary[w])
+            # Add wc to the dictionary.
+            dictionary[wc] = dict_size
+            dict_size += 1
+            w = c
+
+    # Output the code for w.
+    if w:
+        result.append(dictionary[w])
+    return result
 
 
-#encodeLZ('input.txt', 'encoded.txt')
-#decodeLZ('encoded.txt', 'decoded.txt')
+def decompress(compressed):
+    """Decompress a list of output ks to a string."""
+    from io import StringIO
 
-encodeLZ(stringIn, stringOut=stringOut)
-#decodeLZ('encoded.txt', 'decoded.txt')
+    # Build the dictionary.
+    dict_size = 256
+    #dictionary = dict((chr(i), chr(i)) for i in xrange(dict_size))
+    dictionary = {chr(i): chr(i) for i in range(dict_size)}
+
+    # use StringIO, otherwise this becomes O(N^2)
+    # due to string concatenation in a loop
+    result = StringIO()
+    w = compressed.pop(0)
+    result.write(w)
+    for k in compressed:
+        if k in dictionary:
+            entry = dictionary[k]
+        elif k == dict_size:
+            entry = w + w[0]
+        else:
+            raise ValueError('Bad compressed k: %s' % k)
+        result.write(entry)
+
+        # Add w+entry[0] to the dictionary.
+        dictionary[dict_size] = w + entry[0]
+        dict_size += 1
+
+        w = entry
+    return result.getvalue()
+
+array = np.random.randint(1, 101, size=(10, 10))
+array = array.flatten()
+print('array', array)
+list = RAS.convert_array_to_list(array)
+#print('list', list)
+string = RAS.convert_list_to_string(list)
+print('string', string)
+# How to use:
+#compressed = compress('TOBEORNOTTOBEORTOBEORNOT')
+compressed = compress(string)
+print ('compressed', compressed)
+decompressed = decompress(compressed)
+print ('decompressed', decompressed)
