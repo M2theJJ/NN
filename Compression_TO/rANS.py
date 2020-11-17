@@ -47,11 +47,6 @@ head_min  = 1 << head_precision - tail_precision
 #          head    , tail
 msg_init = head_min, ()
 
-array = np.random.randint(1, 128, size=(3, 3))
-print(array)
-
-
-
 def append(msg, start, prob, precision): #encoding
     """
     Encodes a symbol with range `[start, start + prob)`.  All `prob`s are
@@ -110,27 +105,9 @@ def unflatten(arr):
     return (int(arr[0]) << 32 | int(arr[1]),
             reduce(lambda tl, hd: (int(hd), tl), reversed(arr[2:]), ()))
 
-array = array.flatten()
-print('1D array', array)
-msg = unflatten(array)
-print('array into rANS msg', msg)
-array = flatten(msg)
-print('rANS msg into array', array)
-precision = 7 #set to 2**7 = 128 = range of rand.int.array - not quite sure how precision settings change compression rate
-e = append(msg, 0, 8, precision)
-print('encoded', e)
-statfun = 1.0
-#d = pop(msg, statfun, precision)
-
-#Test
-rng = np.random.RandomState(0)
-
-#list = RAS.convert_array_to_list(array)
-
-
-
 def test_rans():
     x = msg_init
+    print('x_0', x)
     scale_bits = 8
     starts = rng.randint(0, 256, size=1000)
     freqs = rng.randint(1, 256, size=1000) % (256 - starts)
@@ -141,7 +118,7 @@ def test_rans():
     for start, freq in zip(starts, freqs):
         x = append(x, start, freq, scale_bits)
     coded_arr = flatten(x)
-    print('x', x)
+    print('x_1', x)
     assert coded_arr.dtype == np.uint32
     print("Actual output size: " + str(32 * len(coded_arr)) + " bits.")
 
@@ -153,11 +130,8 @@ def test_rans():
             return None, (start, freq)
         x, symbol = pop(x, statfun, scale_bits)
     print('head_min', head_min)
-    print('x', x)
+    print('x_2', x)
     assert x == (head_min, ())
-
-test = test_rans()
-
 
 def test_flatten_unflatten():
     state = msg_init
@@ -169,6 +143,63 @@ def test_flatten_unflatten():
     flat_ = flatten(state_)
     assert np.all(flat == flat_)
 
+#Test
+rng = np.random.RandomState(0)
+
+test = test_rans()
+
 test_f_u = test_flatten_unflatten()
 
+def test_rans_1():
+    x = np.random.randint(1, 128, size=(3, 3))
+    x = x.flatten()
+    print('x_arr', x)
+    x = unflatten(x)
+    print('x_0', x)
+    scale_bits = 8
+    starts = rng.randint(0, 256, size=1000)
+    freqs = rng.randint(1, 256, size=1000) % (256 - starts)
+    freqs[freqs == 0] = 1
+    assert np.all(starts + freqs <= 256)
+    print("Exact entropy: " + str(np.sum(np.log2(256 / freqs))) + " bits.")
+    # Encode
+    for start, freq in zip(starts, freqs):
+        x = append(x, start, freq, scale_bits)
+    coded_arr = flatten(x)
+    print('x_1', x)
+    assert coded_arr.dtype == np.uint32
+    print("Actual output size: " + str(32 * len(coded_arr)) + " bits.")
+
+    # Decode
+    x = unflatten(coded_arr)
+    for start, freq in reversed(list(zip(starts, freqs))):
+        def statfun(cf):
+            assert start <= cf < start + freq
+            return None, (start, freq)
+        x, symbol = pop(x, statfun, scale_bits)
+    print('head_min', head_min)
+    print('x_2', x)
+    f = flatten(x)
+    print('decoded', f)
+    assert x == (head_min, ())
+
+test_1 = test_rans_1()
+'''
+array = np.random.randint(1, 128, size=(3, 3))
+print('array', array)
+array = array.flatten()
+print('1D array', array)
+msg = unflatten(array)
+print('array into rANS msg', msg)
+array = flatten(msg)
+print('rANS msg into array', array)
+precision = 7 #set to 2**7 = 128 = range of rand.int.array - not quite sure how precision settings change compression rate
+e = append(msg, 0, 8, precision)
+print('encoded', e)
+statfun = 1.0
+d = pop(msg, statfun, precision)
+
+#list = RAS.convert_array_to_list(array)
+
 #check the test_rans to see where problem lies exactly and fix
+'''

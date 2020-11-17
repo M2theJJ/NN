@@ -2,7 +2,7 @@ import numpy as np
 from Extras import RAS
 import random
 
-arr = np.random.randint(1, 101, size=(3, 3))
+arr = np.random.randint(1, 8, size=(3, 3))
 arr = RAS.convert_array_to_list(arr)
 arr = list(map(int, arr))
 print('array', arr)
@@ -66,6 +66,7 @@ class Encoder:
 
     def encode_symbol(self, freqs, symbol):
         (pdf, cdf) =  float_to_int_probs(freqs)
+        print('pdf', pdf, 'cdf', cdf, 'symbol', symbol)
         freq = pdf[symbol]
         start = cdf[symbol]
 
@@ -140,6 +141,7 @@ probs = counts/float(counts.sum())
 print('probs', probs)
 probs = RAS.convert_float_array_to_list(probs)
 probs = list(map(float, probs))
+print('probs_1', probs)
 print('array', arr)
 print('type', type(arr))
 #probs = [0.1, 0.2, 0.3, 0.05, 0.05, 0.15, 0.05, 0.1]

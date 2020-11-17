@@ -239,6 +239,4 @@ print('compressed', compressed)
 decompressed = decompress(compressed)
 print('decompressed', decompressed)
 
-print('ratio', len(compressed)/len(decompressed))
-
-#compression works decompression as well - ratio good!
+print('ration', len(compressed)/len(decompressed))
