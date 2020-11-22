@@ -8,7 +8,7 @@ from __future__ import division, print_function
 import numpy as np
 
 
-arr = np.random.randint(1, 9, size=(5, 5))
+arr = np.random.randint(1, 101, size=(100, 100))
 #arr = 5 * np.random.random_sample((3, 2)) - 5
 arr = arr.flatten()
 print('1D array', arr)
@@ -197,16 +197,18 @@ s = e[0]
 l = e[1]
 v = e[2]
 length = len(arr)
+print('length array', length)
+length_encoded = len(e)
 #print('endcoded', e)
-print('e_starts', e[0])
-print('e_lenghts', e[1])
-print('e_values', e[2])
-
+print('e_starts', len(e[0]))
+print('e_lenghts', len(e[1]))
+print('e_values', len(e[2]))
+'''
 print(' value | length ')
 print('----------------')
 for x in range(len(l)):
     print(' %-4r |%12s' % (v[x], l[x]))
-
+'''
 
 #rldecode
 d = rldecode(s, l, v)

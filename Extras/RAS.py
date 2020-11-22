@@ -87,11 +87,10 @@ def convert_bytes_to_ASCII(bytes):
 
 
 #print('ASCII', ASCII)
-
-#array to txt
-def convert_array_to_text(array):
-    text = np.savetxt("array.txt", array, fmt="%s")
-    with open("array.txt", 'r') as f:
+#array to txt - filename in format: filename = filename.txt
+def convert_array_to_txt(array, filename):
+    text = np.savetxt(filename, array, fmt="%s")
+    with open(filename, 'r') as f:
         print('read', f.read())
     return text
 #text = convert_array_to_text(array)
@@ -111,3 +110,63 @@ def convert_hex_to_list(hex):
     print('h_list', list(binascii.unhexlify(hex)))
     return list
 
+#define filename like this first: trythis = "trythis.txt"
+def convert_int_array_to_file(array, filename):
+    #write w+ to create a new file each time!
+    f=open(filename,"w")
+    array = convert_list_to_string(convert_array_to_list(array))
+    file = f.write(array)
+    f.close()
+    return file
+
+def convert_file_to_int_array(fileName):
+    fileObj = open(fileName, "r")  # opens the file in read mode
+    array = fileObj.read().splitlines()  # puts the file into an array
+    fileObj.close()
+    with open(fileName, 'r') as file:
+        string = file.read().replace('\n', '')
+    li = list(string.split(" "))
+    my_array = np.array(li)
+    int_array = my_array.astype(int)
+    return int_array
+
+
+trythis = "trythis.txt"
+arr = array.flatten()
+text = convert_int_array_to_file(arr, trythis)
+arr = convert_file_to_int_array(trythis)
+print('array from file', arr)
+print('type of array from file', type(arr))
+print('type of element in array', type(arr[0]))
+
+'''
+#somehow read float from text file to something like this
+def convert_file_to_float_array(fileName):
+    data = np.genfromtxt(fileName, usecols=1, dtype=float)
+    return data
+'''
+
+def convert_file_to_float_array(fileName):
+    fileObj = open(fileName, "r")  # opens the file in read mode
+    array = fileObj.read().splitlines()  # puts the file into an array
+    fileObj.close()
+    with open(fileName, 'r') as file:
+        string = file.read().replace('\n', '')
+    li = list(string.split(" "))
+    my_array = np.array(li)
+    int_array = my_array.astype(float)
+    return int_array
+
+def convert_f_array_to_file(array, filename):
+    #write w+ to create a new file each time!
+    f=open(filename,"w")
+    array = convert_list_to_string(convert_float_array_to_list(array))
+    file = f.write(array)
+    f.close()
+    return file
+
+trythis = "trythis.txt"
+
+text = convert_f_array_to_file(f_array, trythis)
+d_f = convert_file_to_float_array(trythis)
+print('floatarray', d_f, 'type', type(d_f))

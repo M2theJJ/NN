@@ -9,6 +9,9 @@ from tensorflow.keras.models import Model
 from tensorflow.keras.optimizers import Adam
 from tensorflow.keras.callbacks import ModelCheckpoint, LearningRateScheduler
 from tensorflow.keras.callbacks import ReduceLROnPlateau
+import logging
+import sys
+from Extras import RAS
 
 
 
@@ -269,10 +272,22 @@ else:
                         callbacks=callbacks)
 
 #----------------------------------------------------------
+#logging
 
+class LogFile(object):
+    """File-like object to log text using the `logging` module."""
 
+    def __init__(self, name=None):
+        self.logger = logging.getLogger(name)
 
+    def write(self, msg, level=logging.INFO):
+        self.logger.log(level, msg)
 
+    def flush(self):
+        for handler in self.logger.handlers:
+            handler.flush()
+
+logging.basicConfig(level=logging.DEBUG, filename='../Keras_VGG19_CIFAR10.log')
 
 
 data = x_test
@@ -284,12 +299,31 @@ for batch_idx in range(num_batches):
        print("Intermediate result batch {}/{} done".format(batch_idx, num_batches))
 
 print("Got intermediate, a random entry: {}".format(intermediate_output[0][0]))
-
+print('Type of intermediate_layer_model:', type(intermediate_output), 'type of intermediate_layer_model entry', type(intermediate_output[0][0]))
+print('rows', len(intermediate_output), 'colums', len(intermediate_output[0]), 'depth', len(intermediate_output[0][0]), '4th dimension?', len(intermediate_output[0][0][0]))
 
 # Score trained model.
 scores = model.evaluate(x_test, y_test, verbose=1)
 print('Test loss:', scores[0])
 print('Test accuracy:', scores[1])
+'''
+rows = len(intermediate_output)
+colums = len(intermediate_output[0])
+i = 0
+h = 0
+#write activations into file
+a_str = RAS.convert_list_to_string(intermediate_output)
+filename = "activations_VGG.txt"
+for i in range(0, rows):
+    i += 1
+    for h in range(0,colums):
+        activations_VGG19_text = RAS.convert_f_array_to_file(intermediate_output[i][h], filename)
+        h += 1
+
+'''
+# Redirect stdout and stderr
+sys.stdout = LogFile('stdout')
+sys.stderr = LogFile('stderr')
 
 
 

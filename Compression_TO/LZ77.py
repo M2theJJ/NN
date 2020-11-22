@@ -229,7 +229,7 @@ def decompress_file(input_file: str, output_file: str):
     with open(output_file, "w") as f:
         f.write(compressed_input)
 
-array = np.random.randint(1, 101, size=(50, 50))
+array = np.random.randint(1, 101, size=(100, 100))
 list = RAS.convert_array_to_list(array)
 string = RAS.convert_list_to_string(list)
 

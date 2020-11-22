@@ -104,7 +104,7 @@ def unflatten(arr):
     """Unflatten a 1d numpy array into a rANS message."""
     return (int(arr[0]) << 32 | int(arr[1]),
             reduce(lambda tl, hd: (int(hd), tl), reversed(arr[2:]), ()))
-
+'''
 def test_rans():
     x = msg_init
     print('x_0', x)
@@ -133,6 +133,8 @@ def test_rans():
     print('x_2', x)
     assert x == (head_min, ())
 
+'''
+
 def test_flatten_unflatten():
     state = msg_init
     some_bits = rng.randint(1 << 8, size=5)
@@ -146,16 +148,20 @@ def test_flatten_unflatten():
 #Test
 rng = np.random.RandomState(0)
 
-test = test_rans()
+#test = test_rans()
 
 test_f_u = test_flatten_unflatten()
 
 def test_rans_1():
-    x = np.random.randint(1, 128, size=(3, 3))
+    x = np.random.randint(1, 10, size=(100, 100))
     x = x.flatten()
     print('x_arr', x)
+
+    input = 32 * len(x)
+    print('input', input)
     x = unflatten(x)
-    print('x_0', x)
+    print("Actual output size of x: " + str(32 * len(x)) + " bits.")
+#    print('x_0', x)
     scale_bits = 8
     starts = rng.randint(0, 256, size=1000)
     freqs = rng.randint(1, 256, size=1000) % (256 - starts)
@@ -166,9 +172,15 @@ def test_rans_1():
     for start, freq in zip(starts, freqs):
         x = append(x, start, freq, scale_bits)
     coded_arr = flatten(x)
-    print('x_1', x)
+    #coded_arr_1 = unflatten(coded_arr)
+#    print('coded_array_1', coded_arr_1)
+#    print('x_1', x)
     assert coded_arr.dtype == np.uint32
-    print("Actual output size: " + str(32 * len(coded_arr)) + " bits.")
+    print("Actual output size of encoded: " + str(32 * len(coded_arr)) + " bits.")
+    encoded = 32 * len(coded_arr)
+    print('encoded', encoded)
+
+    print('Ration:', encoded / input)
 
     # Decode
     x = unflatten(coded_arr)
@@ -177,11 +189,11 @@ def test_rans_1():
             assert start <= cf < start + freq
             return None, (start, freq)
         x, symbol = pop(x, statfun, scale_bits)
-    print('head_min', head_min)
-    print('x_2', x)
+#    print('head_min', head_min)
+#    print('x_2', x)
     f = flatten(x)
     print('decoded', f)
-    assert x == (head_min, ())
+
 
 test_1 = test_rans_1()
 '''

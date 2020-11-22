@@ -417,4 +417,4 @@ if __name__ == "__main__":
 
     print("Total length of input (in bytes): {}".format(str_size))
     print("Total length of encoded text (in bytes): {}".format(len(encoded_text)))
-    print("Compression ratio: {}:1".format(str_size / len(encoded_text)))
+    print("Compression ratio: {}".format(len(encoded_text) / str_size))
