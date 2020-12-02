@@ -79,4 +79,4 @@ print ('decompressed', decompressed, 'lenght', len(decompressed))
 print('Ration:', len(compressed) / len(decompressed))
 
 
-#works properly with a ration < 1
+#works properly with a ration < 1=

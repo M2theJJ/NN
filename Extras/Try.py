@@ -14,7 +14,6 @@
 
 import struct
 import numpy as np
-from Extras import RAS
 import random
 from math import floor, ceil
 
@@ -103,7 +102,7 @@ def slice_float(float):
     f_r = float
     f_s = str(float)
     d_l = f_s[::-1].find('.')
-    print('number of decimals', d_l)
+#    print('number of decimals', d_l)
     x = 1
     a = np.zeros(d_l + 1)
     while x < d_l+2:
@@ -131,25 +130,26 @@ def max_float_lenght(float_array):
 def slice_float_array(f_array):
 #first entry of each array is the length of the array to avoid taking with it 0's
     dim_1 = len(f_array)
-    print('type dim', type(dim_1))
+    print('dim', dim_1)
     maxlength = max_float_lenght(f_array)
-    print('type maxlength', type(maxlength))
+    print('maxlength', maxlength)
     s_f_a = np.zeros((dim_1, maxlength))
+    length_array = np.zeros(dim_1)
     print('s_f_a', s_f_a)
     n = 0
     while n < (dim_1):
         f_a = slice_float(f_array[n])
-        print('f_a', f_a)
+#        print('f_a', f_a)
         m = 0
+        length_array[n-1] = len(f_a)
         while m < (len(f_a)):
-            s_f_a[n, 0] = len(f_a)
-            s_f_a[n,m+1] = f_a[m]
+            s_f_a[n,m] = f_a[m]
             m += 1
         n += 1
-        print('n', n)
-    print('s_f_a done', s_f_a)
-    return s_f_a
-
+#        print('n', n)
+    print('s_f_a done', s_f_a, 'length s_f_a', len(s_f_a))
+    return s_f_a, length_array
+'''
 f = random.uniform(1.5, 9.5)
 print('float:', f)
 f_array = np.random.uniform(low=0.5, high=9.3, size=(50, 3))
@@ -158,5 +158,6 @@ print('float array', f_array)
 print('length of array', len(f_array))
 #max_length = max_float_lenght(f_array)
 s_float_array = slice_float_array(f_array)
-print('check:', s_float_array)
+print('check s_f_a:', s_float_array[0], 'check length array:', s_float_array[1])
 
+'''

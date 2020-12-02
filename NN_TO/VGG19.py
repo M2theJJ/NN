@@ -12,6 +12,7 @@ from tensorflow.keras.callbacks import ReduceLROnPlateau
 import logging
 import sys
 from Extras import RAS
+from Extras import Try
 
 
 
@@ -298,14 +299,35 @@ for batch_idx in range(num_batches):
        intermediate_output = intermediate_layer_model.predict(data[start:end])
        print("Intermediate result batch {}/{} done".format(batch_idx, num_batches))
 
+
+#within 6th dim the floats/activations are
 print("Got intermediate, a random entry: {}".format(intermediate_output[0][0]))
 print('Type of intermediate_layer_model:', type(intermediate_output), 'type of intermediate_layer_model entry', type(intermediate_output[0][0]))
-print('rows', len(intermediate_output), 'colums', len(intermediate_output[0]), 'depth', len(intermediate_output[0][0]), '4th dimension?', len(intermediate_output[0][0][0]))
+print('#rows', len(intermediate_output), 'rows', intermediate_output) #59 - maybe layers?
+print('#colums', len(intermediate_output[0]), 'colums', intermediate_output[0]) #32
+print('#depth', len(intermediate_output[0][0]), 'depth', intermediate_output[0][0]) #32
+print('#4th dimension?', len(intermediate_output[0][0][0]), '4th dimension?', intermediate_output[0][0][0]) #32
+print('#5th dimension?', len(intermediate_output[0][0][0][0]), '5th dimension?', intermediate_output[0][0][0][0]) #64 float array
+print('6th dimension?', intermediate_output[0][0][0][0][0]) #actual float number
+#print('#7th dimension?', len(intermediate_output[0][0][0][0][0][0]), '5th dimension?', len(intermediate_output[0][0][0][0][0][0])) #doesn't exist
+
+#write array to file
+filename = "activations_VGG19.txt"
+text = RAS.convert_f_array_to_file(intermediate_output[0][0][0][0], filename)
+
+#slice array and write on file
+s_filename = "sliced_activations_VGG19.txt"
+sliced_arr = Try.slice_float_array(intermediate_output[0][0][0][0])
+sliced_array = sliced_arr[0]
+sliced_arr_l = sliced_arr[1]
+sliced_arr = sliced_array.astype(int)
+sliced_text = RAS.convert_int_array_to_file(sliced_array, s_filename)
 
 # Score trained model.
 scores = model.evaluate(x_test, y_test, verbose=1)
 print('Test loss:', scores[0])
 print('Test accuracy:', scores[1])
+
 '''
 rows = len(intermediate_output)
 colums = len(intermediate_output[0])
