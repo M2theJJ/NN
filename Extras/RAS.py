@@ -2,7 +2,7 @@ import numpy as np
 import binascii
 
 #Creates random Array
-
+'''
 #array = np.random.randint(1, 101, 8)
 #array = np.random.randint(101, 8) #array with 0s
 array = np.random.randint(1, 101, size=(3, 3))
@@ -11,7 +11,7 @@ array = np.random.randint(1, 101, size=(3, 3))
 #array = [55, 33, 22]
 #print (array)
 f_array = np.random.uniform(low=0.5, high=13.3, size=(50,))
-
+'''
 
 #Array to list
 def convert_array_to_list(array):
@@ -130,7 +130,7 @@ def convert_file_to_int_array(fileName):
     int_array = my_array.astype(int)
     return int_array
 
-
+'''
 trythis = "trythis.txt"
 arr = array.flatten()
 text = convert_int_array_to_file(arr, trythis)
@@ -139,7 +139,7 @@ print('array from file', arr)
 print('type of array from file', type(arr))
 print('type of element in array', type(arr[0]))
 
-'''
+
 #somehow read float from text file to something like this
 def convert_file_to_float_array(fileName):
     data = np.genfromtxt(fileName, usecols=1, dtype=float)
@@ -164,9 +164,10 @@ def convert_f_array_to_file(array, filename):
     file = f.write(array)
     f.close()
     return file
-
+'''
 trythis = "trythis.txt"
 
 text = convert_f_array_to_file(f_array, trythis)
 d_f = convert_file_to_float_array(trythis)
 print('floatarray', d_f, 'type', type(d_f))
+'''

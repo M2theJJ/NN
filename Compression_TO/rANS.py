@@ -152,9 +152,10 @@ rng = np.random.RandomState(0)
 
 test_f_u = test_flatten_unflatten()
 
-def test_rans_1():
-    x = np.random.randint(1, 10, size=(100, 100))
-    x = x.flatten()
+def rANS_Do(array):
+
+    x = array
+    original =array
     print('x_arr', x)
 
     input = 32 * len(x)
@@ -164,7 +165,9 @@ def test_rans_1():
 #    print('x_0', x)
     scale_bits = 8
     starts = rng.randint(0, 256, size=1000)
+    print('starts', starts, 'starts length', len(starts))
     freqs = rng.randint(1, 256, size=1000) % (256 - starts)
+    print('freqs', freqs, 'length of freq', len(freqs))
     freqs[freqs == 0] = 1
     assert np.all(starts + freqs <= 256)
     print("Exact entropy: " + str(np.sum(np.log2(256 / freqs))) + " bits.")
@@ -193,9 +196,11 @@ def test_rans_1():
 #    print('x_2', x)
     f = flatten(x)
     print('decoded', f)
+    assert original.all() == f.all()
 
-
-test_1 = test_rans_1()
+test = rANS_Do(np.random.randint(0,9,512))
+#test = rANS_Do(np.random.randint(1,9, (10,10)).flatten())
+#test_1 = test_rans_1()
 '''
 array = np.random.randint(1, 128, size=(3, 3))
 print('array', array)

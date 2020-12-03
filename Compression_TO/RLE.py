@@ -191,18 +191,30 @@ def impute_missing(starts, lengths, values, terminal_values=(0, 0)):
     lengths = np.r_[starts[1:] - starts[:-1], n - starts[-1]]
     return simplify(starts, lengths, values)
 
-#rlencode
-e = rlencode(arr)
-s = e[0]
-l = e[1]
-v = e[2]
-length = len(arr)
-print('length array', length)
-length_encoded = len(e)
-#print('endcoded', e)
-print('e_starts', len(e[0]))
-print('e_lenghts', len(e[1]))
-print('e_values', len(e[2]))
+def RLE_Do(array):
+    #rlencode
+    e = rlencode(array)
+    s = e[0]
+    l = e[1]
+    v = e[2]
+    length = len(arr)
+    print('length array', length)
+    #length_encoded = len(e)
+    #print('endcoded', e)
+    print('e_starts', len(e[0]))
+    print('e_lenghts', len(e[1]))
+    print('e_values', len(e[2]))
+    length_e = len(e[0]) + len(e[1]) + len(e[2])
+    print('length encoded', length_e)
+
+    # rldecode
+    d = rldecode(s, l, v)
+    print('decoded', d)
+    length_d = len(d)
+    print('length decoded', length_d)
+
+    print('compression ratio: ', length_e / length_d)
+
 '''
 print(' value | length ')
 print('----------------')
@@ -210,9 +222,7 @@ for x in range(len(l)):
     print(' %-4r |%12s' % (v[x], l[x]))
 '''
 
-#rldecode
-d = rldecode(s, l, v)
-print('decoded', d)
+
 '''
 #iterruns
 iterruns = iterruns(arr)

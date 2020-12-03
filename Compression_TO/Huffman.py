@@ -394,14 +394,17 @@ class HuffmanTree:
         return "<HuffmanTree: head={}>".format(self.head)
 
 
-if __name__ == "__main__":
+#if __name__ == "__main__":
 
 #    in_str = "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nunc hendrerit nulla et sodales dapibus. Nullam mauris orci"
 #    in_str = in_str * 500
-    arr = np.random.randint(1, 101, size=(100, 100))
-    arr = RAS.convert_array_to_list(arr)
-    in_str = RAS.convert_list_to_string(arr)
+#    arr = np.random.randint(1, 101, size=(100, 100))
 
+
+def Huffman_Do(array):
+
+    array = RAS.convert_array_to_list(array)
+    in_str = RAS.convert_list_to_string(array)
 
     str_size = len(in_str.encode('utf-8'))
     print("Original text: {}\n".format(in_str))
@@ -418,3 +421,5 @@ if __name__ == "__main__":
     print("Total length of input (in bytes): {}".format(str_size))
     print("Total length of encoded text (in bytes): {}".format(len(encoded_text)))
     print("Compression ratio: {}".format(len(encoded_text) / str_size))
+
+    return encoded_text, decoded_text

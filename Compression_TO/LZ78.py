@@ -65,18 +65,19 @@ def decompress(compressed):
 
 array = np.random.randint(1, 101, size=(100, 100))
 array = array.flatten()
-list = RAS.convert_array_to_list(array)
-#print('list', list)
-string = RAS.convert_list_to_string(list)
-# How to use:
-#compressed = compress('TOBEORNOTTOBEORTOBEORNOT')
-compressed = compress(string)
-s_c = sys.getsizeof(compressed)
-print( 'size', print(s_c)) #why size none if compressed is an object?
-print ('compressed', compressed, 'lenght', len(compressed))
-decompressed = decompress(compressed)
-print ('decompressed', decompressed, 'lenght', len(decompressed))
-print('Ration:', len(compressed) / len(decompressed))
+def LZ78_Do(array):
+    list = RAS.convert_array_to_list(array)
+    #print('list', list)
+    string = RAS.convert_list_to_string(list)
+    # How to use:
+    #compressed = compress('TOBEORNOTTOBEORTOBEORNOT')
+    compressed = compress(string)
+    s_c = sys.getsizeof(compressed)
+    print( 'size', print(s_c)) #why size none if compressed is an object?
+    print ('compressed', compressed, 'lenght', len(compressed))
+    decompressed = decompress(compressed)
+    print ('decompressed', decompressed, 'lenght', len(decompressed))
+    print('Ration:', len(compressed) / len(decompressed))
 
 
 #works properly with a ration < 1=
