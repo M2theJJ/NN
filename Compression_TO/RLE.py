@@ -8,7 +8,7 @@ from __future__ import division, print_function
 import numpy as np
 
 
-arr = np.random.randint(1, 101, size=(100, 100))
+arr = np.random.randint(0, 3, size=(10, 10))
 #arr = 5 * np.random.random_sample((3, 2)) - 5
 arr = arr.flatten()
 print('1D array', arr)
@@ -197,14 +197,26 @@ def RLE_Do(array):
     s = e[0]
     l = e[1]
     v = e[2]
-    length = len(arr)
+    length = len(array)
     print('length array', length)
+
+
+    encoded = np.zeros(len(l)+len(v))
+    #new input here: create array as in theory of (12W13X ect)
+    for x in range(0, len(v) + len(s)):
+        encoded[x] = l[x]
+        encoded[x+1] = v[x]
+        x += 2
+    print('encoded try', encoded, 'try length', len(encoded))
+#    return encoded
+
     #length_encoded = len(e)
     #print('endcoded', e)
-    print('e_starts', len(e[0]))
-    print('e_lenghts', len(e[1]))
-    print('e_values', len(e[2]))
-    length_e = len(e[0]) + len(e[1]) + len(e[2])
+    print('e_starts', e[0], 'length', len(e[0]))
+    print('e_lenghts', e[1], 'length', len(e[1]))
+    print('e_values', v, 'length', len(e[2]))
+#    length_e = len(e[0]) + len(e[1]) + len(e[2])
+    length_e = len(e[0]) + len(e[1])
     print('length encoded', length_e)
 
     # rldecode
@@ -214,6 +226,7 @@ def RLE_Do(array):
     print('length decoded', length_d)
 
     print('compression ratio: ', length_e / length_d)
+do = RLE_Do(arr)
 
 '''
 print(' value | length ')

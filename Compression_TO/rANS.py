@@ -150,7 +150,7 @@ rng = np.random.RandomState(0)
 
 #test = test_rans()
 
-test_f_u = test_flatten_unflatten()
+#test_f_u = test_flatten_unflatten()
 
 def rANS_Do(array):
 
@@ -183,7 +183,7 @@ def rANS_Do(array):
     encoded = 32 * len(coded_arr)
     print('encoded', encoded)
 
-    print('Ration:', encoded / input)
+#    print('Ratio:', len(encoded) / len(input))
 
     # Decode
     x = unflatten(coded_arr)
@@ -198,8 +198,8 @@ def rANS_Do(array):
     print('decoded', f)
     assert original.all() == f.all()
 
-test = rANS_Do(np.random.randint(0,9,512))
-#test = rANS_Do(np.random.randint(1,9, (10,10)).flatten())
+#test = rANS_Do(np.random.randint(0,9,512))
+test = rANS_Do(np.random.randint(1,9, (10,10)).flatten())
 #test_1 = test_rans_1()
 '''
 array = np.random.randint(1, 128, size=(3, 3))

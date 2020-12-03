@@ -1,184 +1,432 @@
-"""Run Length Encoding utilities for NumPy arrays.
-Authors
--------
-- Nezar Abdennur
-- Anton Goloborodko
-"""
-from __future__ import division, print_function
+
+
+"""Numpy encode/decode/utility implementations for run length encodings.
+https://raw.githubusercontent.com/jackd/run_length_encoding/master/rle/np_impl.py"""
+from __future__ import absolute_import
+from __future__ import division
+from __future__ import print_function
+
 import numpy as np
 
+import tensorflow as tf
+from tensorflow_datasets.core import tf_compat
+
+#Binary Run Length Encoding
+"""Tensorflow encode/decode/utility implementations for run length encodings."""
+from __future__ import absolute_import
+from __future__ import division
+from __future__ import print_function
 
 
 
-def rlencode(x, dropna=False):
-    """
-    Run length encoding.
-    Based on http://stackoverflow.com/a/32681075, which is based on the rle
-    function from R.
 
-    Parameters
-    ----------
-    x : 1D array_like
-        Input array to encode
-    dropna: bool, optional
-        Drop all runs of NaNs.
+def brle_length(brle):
+  """Length of dense form of binary run-length-encoded input.
 
-    Returns
-    -------
-    start positions, run lengths, run values
-
-    """
-    where = np.flatnonzero
-    x = np.asarray(x)
-    n = len(x)
-    if n == 0:
-        return (np.array([], dtype=int),
-                np.array([], dtype=int),
-                np.array([], dtype=x.dtype))
-
-    starts = np.r_[0, where(~np.isclose(x[1:], x[:-1], equal_nan=True)) + 1]
-    lengths = np.diff(np.r_[starts, n])
-    values = x[starts]
-
-    if dropna:
-        mask = ~np.isnan(values)
-        starts, lengths, values = starts[mask], lengths[mask], values[mask]
-
-    return starts, lengths, values
+  Efficient implementation of `len(brle_to_dense(brle))`."""
+  return tf.reduce_sum(brle)
 
 
-def rldecode(starts, lengths, values, minlength=None):
-    """
-    Decode a run-length encoding of a 1D array.
+def rle_length(rle):
+  """Length of dense form of run-length-encoded input.
 
-    Parameters
-    ----------
-    starts, lengths, values : 1D array_like
-        The run-length encoding.
-    minlength : int, optional
-        Minimum length of the output array.
-
-    Returns
-    -------
-    1D array. Missing data will be filled with NaNs.
-
-    """
-    starts, lengths, values = map(np.asarray, (starts, lengths, values))
-    # TODO: check validity of rle
-    ends = starts + lengths
-    n = ends[-1]
-    if minlength is not None:
-        n = max(minlength, n)
-    x = np.full(n, np.nan)
-    for lo, hi, val in zip(starts, ends, values):
-        x[lo:hi] = val
-    return x
+  Efficient implementation of `len(rle_to_dense(rle))`."""
+  return tf.reduce_sum(rle[1::2])
 
 
-def iterruns(x, value=None, **kwargs):
-    starts, lengths, values = rlencode(x, **kwargs)
-    if value is None:
-        ends = starts + lengths
-        return zip(starts, ends, values)
+def brle_logical_not(brle):
+  """Get the BRLE encoding of the `logical_not`ed decoding of brle.
+
+  Equivalent to `dense_to_brle(tf.logical_not(brle_to_dense(brle)))` but highly
+  optimized. Actual implementation just pads brle with a 0 on each end.
+
+  Args:
+    brle: rank 1 int tensor of ints.
+  """
+  return tf.pad(brle, [[1, 1]])
+
+
+def brle_to_dense(brle, vals=None):
+  """Decode binary run length encoded data.
+
+  Args:
+    brle: binary run length encoded data, 1D tensor of int dtype
+    vals (optional): length-2 tensor/array/tuple made up of
+        (false_val, true_val).
+
+  Returns:
+    Dense representation, rank-1 tensor with dtype the same as vals or `tf.bool`
+      if `vals is None`.
+  """
+  if hasattr(tf, 'RaggedTensor'):
+    return _brle_to_dense_ragged(brle, vals)
+  else:
+    return _brle_to_dense_repeat(brle, vals)
+
+
+def _brle_to_dense_repeat(brle, vals=None):
+  if vals is None:
+    vals = tf.consatnt([False, True], dtype=tf.bool)
+  else:
+    vals = tf.convert_to_tensor(vals)
+    if vals.shape != (2,):
+      raise ValueError(
+        'vals must be a 2 element tensor, got shape %s' % (vals.shape))
+  if brle.shape.ndims != 1:
+    raise ValueError(
+      'brle must be a rank 1 tensor, got shape %s' % (brle.shape))
+  vals = tf.tile(vals, tf.size(brle) // 2)
+  return tf.repeat(vals, brle)
+
+
+def _brle_to_dense_ragged(brle, vals=None):
+  """brle_to_dense implementation using RaggedTensor. Requires tf 1.13."""
+  if not hasattr(tf, 'RaggedTensor'):
+    raise RuntimeError('_brle_to_dense_ragged requires tf.RaggedTensor')
+
+  brle = tf.convert_to_tensor(brle)
+  if not brle.dtype.is_integer:
+    raise TypeError("`brle` must be of integer type.")
+  if not brle.shape.ndims == 1:
+    raise TypeError("`brle` must be a rank 1 tensor.")
+  enc_false, enc_true = tf.unstack(tf.reshape(brle, (-1, 2)), axis=1)
+
+  n_false = tf.reduce_sum(enc_false)
+  n_true = tf.reduce_sum(enc_true)
+  if vals is None:
+    false_vals = tf.zeros((n_false,), dtype=tf.bool)
+    true_vals = tf.ones((n_true,), dtype=tf.bool)
+  else:
+    vals = tf.convert_to_tensor(vals)
+    if vals.shape.ndims != 1:
+      raise ValueError("`vals` must be rank 1 tensor.")
+    if vals.shape[0] != 2:
+      raise ValueError("`vals` must have exactly 2 entries.")
+
+    false_val, true_val = tf.unstack(vals, axis=0)
+    false_vals = tf.fill([n_false], false_val)
+    true_vals = tf.fill([n_true], true_val)
+
+  ragged_false = tf.RaggedTensor.from_row_lengths(false_vals, enc_false)
+  ragged_true = tf.RaggedTensor.from_row_lengths(true_vals, enc_true)
+
+  ragged_all = tf.concat([ragged_false, ragged_true], axis=1)
+  return ragged_all.values
+
+
+def tf_repeat(values, repeats):
+  values = tf.convert_to_tensor(values)
+  repeats = tf.convert_to_tensor(repeats)
+
+  if values.shape.ndims != 1:
+    raise ValueError('values must be rank 1, got shape %s' % values.shape)
+  if repeats.shape.ndims != 1:
+    raise ValueError('repeats must be rank 1, got shape %s' % repeats.shape)
+  if not repeats.dtype.is_integer:
+    raise ValueError('repeats must be an integer, got %s' % repeats.dtype)
+
+  def fold_fn(red, elems):
+    value, repeat = elems
+    filled = tf.fill((repeat,), value)
+    return tf.concat((red, filled), axis=0)
+
+  out = tf.foldl(
+      fold_fn, (values, repeats),
+      back_prop=False, initializer=tf.zeros(shape=(0,), dtype=values.dtype))
+
+  return out
+
+
+def rle_to_dense(rle, dtype=tf.int64):
+  """Convert run length encoded data to dense.
+
+  Note current implementation uses `tf.py_function` in `tf_repeat`.
+  """
+  rle = tf.convert_to_tensor(rle)
+  values, counts = tf.unstack(tf.reshape(rle, (-1, 2)), axis=-1)
+  return tf_repeat(values, counts)
+
+def brle_length(brle):
+  """Optimized implementation of `len(brle_to_dense(brle))`"""
+  return np.sum(brle)
+
+
+def rle_length(rle):
+  """Optimized implementation of `len(rle_to_dense(rle_to_brle(rle)))`"""
+  return np.sum(rle[1::2])
+
+
+def rle_to_brle(rle, dtype=None):
+  """Convert run length encoded (RLE) value/counts to BRLE.
+
+  RLE data is stored in a rank 1 array with each pair giving (value, count)
+
+  e.g. the RLE encoding of [4, 4, 4, 1, 1, 6] is [4, 3, 1, 2, 6, 1].
+
+  Args:
+    rle: run length encoded data
+
+  Returns:
+    equivalent binary run length encoding. a list if dtype is None, otherwise
+      brle_to_brle is called on that list before returning.
+
+  Raises:
+    ValueError if any of the even counts of `rle` are not zero or 1.
+  """
+  curr_val = 0
+  out = [0]
+  acc = 0
+  for value, count in np.reshape(rle, (-1, 2)):
+    acc += count
+    if value not in (0, 1):
+      raise ValueError("Invalid run length encoding for conversion to BRLE")
+    if value == curr_val:
+      out[-1] += count
     else:
-        mask = values == value
-        starts, lengths = starts[mask], lengths[mask]
-        ends = starts + lengths
-        return zip(starts, ends)
+      out.append(int(count))
+      curr_val = value
+  if len(out) % 2:
+    out.append(0)
+  if dtype is not None:
+    out = brle_to_brle(out, dtype=dtype)
+  out = maybe_pad_brle(out)
+  return out
 
 
-def isrle(starts, lengths, values):
-    if not (len(starts) == len(lengths) == len(values)):
-        return False
+def brle_logical_not(brle):
+  """Get the BRLE encoding of the `logical_not`ed dense form of `brle`.
 
-    if np.any(np.diff(starts) < 0):
-        return False
+  Equivalent to `dense_to_brle(np.logical_not(brle_to_dense(brle)))` but highly
+  optimized. Actual implementation just pads brle with a 0 on each end.
 
-    ends = starts + lengths
-    if np.any(ends[:-1] > starts[1:]):
-        return False
-
-    return True
-
-
-def slv2sev(starts, lengths, values):
-    return starts, starts + lengths, values
+  Args:
+    brle: rank 1 int array of
+  """
+  if brle[0] or brle[-1]:
+    return np.pad(brle, [1, 1], mode='constant')
+  else:
+    return brle[1:-1]
 
 
-def sev2slv(starts, ends, values):
-    return starts, ends - starts, values
+def maybe_pad_brle(lengths, start_value=False):
+  """Get a potentially padded version of lengths.
+
+  Args:
+    lengths: rank 1 int array
+    start_value: bool indicating value corresponding to the first value of
+      lengths
+
+  Returns:
+    rank 1 array of same dtype as lengths, with an extra zero at the front
+      if `start_value`, and an extra zero at the end if the resulting array
+      would not have an even number of elements.
+  """
+  pad_left = int(start_value)
+  pad_right = (len(lengths) + pad_left) % 2
+  if pad_left + pad_right > 0:
+    return np.pad(lengths, [pad_left, pad_right], mode='constant')
+  else:
+    return lengths
 
 
-def simplify(starts, lengths, values, minlength=None):
-    """
-    Remove NaN runs and runs of length zero and stich together consecutive runs
-    of the same value.
+def merge_brle_lengths(lengths):
+  """Inverse of split_long_brle_lengths."""
+  if len(lengths) == 0:
+    return []
 
-    """
-    starts, lengths, values = fill_gaps(starts, lengths, values, minlength)
-    n = starts[-1] + lengths[-1]
-
-    is_nontrivial = lengths > 0
-    starts = starts[is_nontrivial]
-    values = values[is_nontrivial]
-
-    is_new_run = np.r_[True, ~np.isclose(values[:-1], values[1:], equal_nan=True)]
-    starts = starts[is_new_run]
-    values = values[is_new_run]
-
-    lengths = np.r_[starts[1:] - starts[:-1], n - starts[-1]]
-
-    mask = ~np.isnan(values)
-    return starts[mask], lengths[mask], values[mask]
+  out = [int(lengths[0])]
+  accumulating = False
+  for length in lengths[1:]:
+    if accumulating:
+      out[-1] += length
+      accumulating = False
+    else:
+      if length == 0:
+        accumulating = True
+      else:
+        out.append(int(length))
+  return maybe_pad_brle(out)
 
 
-def fill_gaps(starts, lengths, values, minlength=None, fill_value=np.nan):
-    """
-    Add additional runs to fill in spaces between runs. Defaults to runs of NaN.
-    """
-    where = np.flatnonzero
-    n = starts[-1] + lengths[-1]
-    if minlength is not None:
-        n = max(minlength, n)
+def split_long_brle_lengths(lengths, dtype=np.int64):
+  """Split lengths that exceed max dtype value.
 
-    ends = starts + lengths
-    lo = np.r_[0, ends]
-    hi = np.r_[starts, n]
-    gap_locs = where((hi - lo) > 0)
-    if len(gap_locs):
-        starts = np.insert(starts, gap_locs, lo[gap_locs])
-        lengths = np.insert(lengths, gap_locs, hi[gap_locs] - lo[gap_locs])
-        values = np.insert(values, gap_locs, fill_value)
-    return starts, lengths, values
+  Lengths `l` are converted into [max_val, 0] * l // max_val + [l % max_val]
+
+  e.g. for dtype=np.uint8 (max_value == 255)
+  ```
+  split_long_brle_lengths([600, 300, 2, 6], np.uint8) == \
+       [255, 0, 255, 0, 90, 255, 0, 45, 2, 6]
+  ```
+  """
+  lengths = np.asarray(lengths)
+  max_val = np.iinfo(dtype).max
+  bad_length_mask = lengths > max_val
+  if np.any(bad_length_mask):
+    # there are some bad lenghs
+    nl = len(lengths)
+    repeats = np.asarray(lengths) // max_val
+    remainders = (lengths % max_val).astype(dtype)
+    lengths = np.empty(shape=(np.sum(repeats)*2 + nl,), dtype=dtype)
+    np.concatenate(
+      [np.array([max_val, 0] * repeat + [remainder], dtype=dtype)
+       for repeat, remainder in zip(repeats, remainders)], out=lengths)
+    return lengths
+  elif lengths.dtype != dtype:
+    return lengths.astype(dtype)
+  else:
+    return lengths
 
 
-def impute_missing(starts, lengths, values, terminal_values=(0, 0)):
-    """
-    Replace NaN runs by imputing the values in them. The values inside the two
-    halves of a NaN run are imputed according to the values of its flanking
-    runs.
-    Parameters
-    ----------
-    starts, lengths, values: 1D array_like
-        run-length encoding
-    terminal_values: tuple, optional
-        terminal flanking values to use to impute terminal NaN runs
-    Returns
-    -------
-    starts, lengths, values
+def dense_to_brle(dense_data, dtype=np.int64):
+  """
+  Get the binary run length encoding of `dense_data`.
 
-    """
-    where = np.flatnonzero
-    n = starts[-1] + lengths[-1]
-    starts = np.r_[0, starts, n]
-    lengths = np.r_[0, lengths, 0]
-    values = np.r_[terminal_values[0], values, terminal_values[1]]
+  Args:
+    dense_data: rank 1 bool array of data to encode.
+    dtype: numpy int type.
 
-    nanrun_mask = np.isnan(values)
-    nanrun_locs = where(nanrun_mask)
-    starts[nanrun_locs + 1] -= lengths[nanrun_locs] // 2
+  Returns:
+    Binary run length encoded rank 1 array of dtype `dtype`.
+  """
+  if dense_data.dtype != np.bool:
+    raise ValueError("`dense_data` must be bool")
+  if len(dense_data.shape) != 1:
+    raise ValueError("`dense_data` must be rank 1.")
+  n = len(dense_data)
+  starts = np.r_[0, np.flatnonzero(dense_data[1:] != dense_data[:-1]) + 1]
+  lengths = np.diff(np.r_[starts, n])
+  lengths = split_long_brle_lengths(lengths, dtype=dtype)
+  return maybe_pad_brle(lengths, dense_data[0])
 
-    starts = starts[~nanrun_mask]
-    values = values[~nanrun_mask]
-    lengths = np.r_[starts[1:] - starts[:-1], n - starts[-1]]
-    return simplify(starts, lengths, values)
+
+_ft = np.array([False, True], dtype=np.bool)
+
+
+def brle_to_dense(brle_data, vals=None):
+  """Decode binary run length encoded data to dense.
+
+  Args:
+    brle_data: BRLE counts of False/True values
+    vals: if not `None`, a length 2 array/list/tuple with False/True substitute
+      values, e.g. brle_to_dense([2, 3, 1, 0], [7, 9]) == [7, 7, 9, 9, 9, 7]
+
+  Returns:
+    rank 1 dense data of dtype `bool if vals is None else vals.dtype`
+  """
+  if vals is None:
+    vals = _ft
+  else:
+    vals = np.asarray(vals)
+    if vals.shape != (2,):
+      raise ValueError("vals.shape must be (2,), got %s" % (vals.shape))
+  ft = np.repeat(_ft[np.newaxis, :], len(brle_data) // 2, axis=0).flatten()
+  return np.repeat(ft, brle_data).flatten()
+
+
+
+
+
+
+
+
+
+#Run Length Encoding
+
+def rle_to_dense(rle_data):
+  """Get the dense decoding of the associated run length encoded data."""
+  values, counts = np.reshape(rle_data, (-1, 2)).T
+  return np.repeat(values, counts)
+
+
+def dense_to_rle(dense_data, dtype=np.int64):
+  """Get run length encoding of the provided dense data."""
+  n = len(dense_data)
+  starts = np.r_[0, np.flatnonzero(dense_data[1:] != dense_data[:-1]) + 1]
+  lengths = np.diff(np.r_[starts, n])
+  values = dense_data[starts]
+  values, lengths = split_long_rle_lengths(values, lengths, dtype=dtype)
+  out = np.stack((values, lengths), axis=1)
+  return out.flatten()
+
+
+def split_long_rle_lengths(values, lengths, dtype=np.int64):
+  """Split long lengths in the associated run length encoding.
+
+  e.g.
+  ```python
+  split_long_rle_lengths([5, 300, 2, 12], np.uint8) == [5, 255, 5, 45, 2, 12]
+  ```
+
+  Args:
+    values: values column of run length encoding, or `rle[::2]`
+    lengths: counts in run length encoding, or `rle[1::2]`
+    dtype: numpy data type indicating the maximum value.
+
+  Returns:
+    values, lengths associated with the appropriate splits. `lengths` will be
+    of type `dtype`, while `values` will be the same as the value passed in.
+  """
+  max_length = np.iinfo(dtype).max
+  lengths = np.asarray(lengths)
+  repeats = lengths // max_length
+  if np.any(repeats):
+    repeats += 1
+    remainder = lengths % max_length
+    values = np.repeat(values, repeats)
+    lengths = np.empty(len(repeats), dtype=dtype)
+    lengths.fill(max_length)
+    lengths = np.repeat(lengths, repeats)
+    lengths[np.cumsum(repeats)-1] = remainder
+  elif lengths.dtype != dtype:
+    lengths = lengths.astype(dtype)
+  return values, lengths
+
+
+def merge_rle_lengths(values, lengths):
+  """Inverse of split_long_rle_lengths except returns normal python lists."""
+  ret_values = []
+  ret_lengths = []
+  curr = None
+  for v, l in zip(values, lengths):
+    if l == 0:
+      continue
+    if v == curr:
+      ret_lengths[-1] += l
+    else:
+      curr = v
+      ret_lengths.append(int(l))
+      ret_values.append(v)
+  return ret_values, ret_lengths
+
+
+def brle_to_rle(brle, dtype=np.int64):
+  lengths = brle
+  values = np.tile(_ft, len(brle) // 2)
+  return rle_to_rle(np.stack((values, lengths), axis=1).flatten(), dtype=dtype)
+
+
+def brle_to_brle(brle, dtype=np.int64):
+  """Almost the identity function.
+
+  Checks for possible merges and required splits.
+  """
+  return split_long_brle_lengths(merge_brle_lengths(brle), dtype=dtype)
+
+
+def rle_to_rle(rle, dtype=np.int64):
+  """Almost the identity function.
+
+  Checks for possible merges and required splits.
+  """
+  v, l = np.reshape(rle, (-1, 2)).T
+  v, l = merge_rle_lengths(v, l)
+  v, l = split_long_rle_lengths(v, l, dtype=dtype)
+  return np.stack((v, l), axis=1).flatten()
+
+dense = np.array([0, 0, 0, 3, 3, 5, 5, 5, 5, 2, 2, 2, 1], dtype=np.uint8)
+rle = dense_to_rle(dense)
+print(rle)                          # [0, 3, 3, 2, 5, 4, 2, 3, 1, 1]
+print(rle_length(rle), len(dense))  # (13, 13)
+decoded = rle_to_dense(rle)
+print(np.all(dense == decoded))     # True
