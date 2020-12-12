@@ -8,11 +8,11 @@ from __future__ import division, print_function
 import numpy as np
 
 
-arr = np.random.randint(0, 3, size=(10, 10))
+#arr = np.random.randint(0, 3, size=(10, 10))
 #arr = 5 * np.random.random_sample((3, 2)) - 5
-arr = arr.flatten()
-print('1D array', arr)
-print(type(arr))
+#arr = arr.flatten()
+#print('1D array', arr)
+#print(type(arr))
 
 
 def rlencode(x, dropna=False):
@@ -198,35 +198,41 @@ def RLE_Do(array):
     l = e[1]
     v = e[2]
     length = len(array)
-    print('length array', length)
+#    print('length array', length)
 
 
     encoded = np.zeros(len(l)+len(v))
     #new input here: create array as in theory of (12W13X ect)
-    for x in range(0, len(v) + len(s)):
-        encoded[x] = l[x]
-        encoded[x+1] = v[x]
-        x += 2
-    print('encoded try', encoded, 'try length', len(encoded))
+    for x in range(0, len(l)):
+        encoded[2*x] = l[x]
+        x += 1
+    for x in range(0, len(v)):
+        encoded[2*x +1] = v[x]
+        x += 1
+    print('encoded', encoded, 'length', len(encoded))
+    encoded_int = encoded.astype(int)
+    print('encoded_int', encoded_int)
 #    return encoded
 
     #length_encoded = len(e)
     #print('endcoded', e)
-    print('e_starts', e[0], 'length', len(e[0]))
-    print('e_lenghts', e[1], 'length', len(e[1]))
-    print('e_values', v, 'length', len(e[2]))
+#    print('e_starts', e[0], 'length', len(e[0]))
+#    print('e_lenghts', e[1], 'length', len(e[1]))
+#    print('e_values', v, 'length', len(e[2]))
 #    length_e = len(e[0]) + len(e[1]) + len(e[2])
-    length_e = len(e[0]) + len(e[1])
-    print('length encoded', length_e)
+    length_e = len(encoded)
+#    print('length encoded', length_e)
 
     # rldecode
     d = rldecode(s, l, v)
-    print('decoded', d)
+#    print('decoded', d)
     length_d = len(d)
     print('length decoded', length_d)
 
     print('compression ratio: ', length_e / length_d)
-do = RLE_Do(arr)
+    print('compression ratio: ', len(encoded_int) / length_d)
+#    print('type', type(encoded[5]))
+#do = RLE_Do(arr)
 
 '''
 print(' value | length ')

@@ -156,21 +156,21 @@ def rANS_Do(array):
 
     x = array
     original =array
-    print('x_arr', x)
+#    print('x_arr', x)
 
     input = 32 * len(x)
-    print('input', input)
+#    print('input', input)
     x = unflatten(x)
-    print("Actual output size of x: " + str(32 * len(x)) + " bits.")
+#    print("Actual output size of x: " + str(32 * len(x)) + " bits.")
 #    print('x_0', x)
     scale_bits = 8
     starts = rng.randint(0, 256, size=1000)
-    print('starts', starts, 'starts length', len(starts))
+#    print('starts', starts, 'starts length', len(starts))
     freqs = rng.randint(1, 256, size=1000) % (256 - starts)
-    print('freqs', freqs, 'length of freq', len(freqs))
+#    print('freqs', freqs, 'length of freq', len(freqs))
     freqs[freqs == 0] = 1
     assert np.all(starts + freqs <= 256)
-    print("Exact entropy: " + str(np.sum(np.log2(256 / freqs))) + " bits.")
+#    print("Exact entropy: " + str(np.sum(np.log2(256 / freqs))) + " bits.")
     # Encode
     for start, freq in zip(starts, freqs):
         x = append(x, start, freq, scale_bits)
@@ -179,9 +179,9 @@ def rANS_Do(array):
 #    print('coded_array_1', coded_arr_1)
 #    print('x_1', x)
     assert coded_arr.dtype == np.uint32
-    print("Actual output size of encoded: " + str(32 * len(coded_arr)) + " bits.")
+#    print("Actual output size of encoded: " + str(32 * len(coded_arr)) + " bits.")
     encoded = 32 * len(coded_arr)
-    print('encoded', encoded)
+#    print('encoded', encoded)
 
 #    print('Ratio:', len(encoded) / len(input))
 
@@ -195,11 +195,11 @@ def rANS_Do(array):
 #    print('head_min', head_min)
 #    print('x_2', x)
     f = flatten(x)
-    print('decoded', f)
+#    print('decoded', f)
     assert original.all() == f.all()
 
 #test = rANS_Do(np.random.randint(0,9,512))
-test = rANS_Do(np.random.randint(1,9, (10,10)).flatten())
+#test = rANS_Do(np.random.randint(1,9, (10,10)).flatten())
 #test_1 = test_rans_1()
 '''
 array = np.random.randint(1, 128, size=(3, 3))

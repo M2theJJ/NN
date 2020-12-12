@@ -11,7 +11,7 @@ def bzip2_Do(array):
     print('this is the list', data)
 
     c = bz2.compress(data)
-    print( len(c)/len(data)) #Data compression ratio
+    print('compression ratio:', len(c)/len(data)) #Data compression ratio
     print('compressed', c)
 
     d = bz2.decompress(c)

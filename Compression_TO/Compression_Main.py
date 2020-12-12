@@ -14,24 +14,24 @@ from os import path
 path = '/Users/m2thejj/PycharmProjects/NN/NN_TO/activations_VGG19.txt'
 with open(path) as f:
     mylist = list(f)
-print('my list', mylist)
+#print('my list', mylist)
 
 
 sliced_array = Try.sliceFA(RAS.convert_file_to_float_array(path))
 a = sliced_array[0]
-print('this is a', a)
+#print('this is a', a)
 int_s_a = a.astype(int)
-print('this is int_s_a', a.astype(int))
+print('this is int_s_a', int_s_a)
 #we have int array consisting of arrays now
 int_s_a = int_s_a.flatten()
-print('array', int_s_a)
-print('lenght', len(int_s_a))
+#print('array', int_s_a)
+#print('lenght', len(int_s_a))
 
 #huff = Huffman.Huffman_Do(int_s_a)
 #lz77 = LZ77.LZ77_Do(int_s_a)
 #lz78 = LZ78.LZ78_Do(int_s_a)
 #rans = rANS.rANS_Do(int_s_a)
-#rle = RLE.RLE_Do(int_s_a)
+rle = RLE.RLE_Do(int_s_a)
 #bzip_2 = bzip2.bzip2_Do(int_s_a)
 
 

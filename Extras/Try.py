@@ -118,26 +118,26 @@ def slice_float(float):
 
 def max_float_lenght(float_array):
     n_max = len(str(float_array[0]))
-    print('float_array[0]', float_array[0],'bin', binary(float_array[0]))
-    print('length of float array', n_max)
+#    print('float_array[0]', float_array[0],'bin', binary(float_array[0]))
+#    print('length of float array', n_max)
     x = 0
     while x < (len(float_array)-1):
         x += 1
         n_max = max(n_max, len(str(float_array[x])))
     length = n_max
-    print('max_length', length, 'type', type(length))
+#    print('max_length', length, 'type', type(length))
     return length
 
 
 def slice_float_array(f_array):
 #first entry of each array is the length of the array to avoid taking with it 0's
     dim_1 = len(f_array)
-    print('dim', dim_1)
+#    print('dim', dim_1)
     maxlength = max_float_lenght(f_array)
-    print('maxlength', maxlength)
+#    print('maxlength', maxlength)
     s_f_a = np.zeros((dim_1, maxlength))
     length_array = np.zeros(dim_1)
-    print('s_f_a', s_f_a)
+#    print('s_f_a', s_f_a)
     n = 0
     while n < (dim_1):
         f_a = slice_float(f_array[n])
@@ -149,7 +149,7 @@ def slice_float_array(f_array):
             m += 1
         n += 1
 #        print('n', n)
-    print('s_f_a done', s_f_a, 'length s_f_a', len(s_f_a))
+#    print('s_f_a done', s_f_a, 'length s_f_a', len(s_f_a))
     return s_f_a, length_array
 '''
 f = random.uniform(1.5, 9.5)
@@ -167,7 +167,7 @@ print('check s_f_a:', s_float_array[0], 'check length array:', s_float_array[1])
 def binary(num):
     return ''.join('{:0>8b}'.format(c) for c in struct.pack('!f', num))
 biString = binary(0.32)
-#print(biString, type(biString), int(biString))
+print(biString, type(biString), int(biString))
 
 
 def sliceF(float):
@@ -185,10 +185,9 @@ def sliceF(float):
     return arraysliced
 
 def sliceFA(f_array):
-#first entry of each array is the length of the array to avoid taking with it 0's
     f_array = f_array.flatten()
     dim_1 = len(f_array)
-    print('dim', dim_1)
+#    print('dim', dim_1)
     maxlength = 4
 #    print('maxlength', maxlength)
     s_f_a = np.zeros((dim_1, maxlength))
@@ -205,10 +204,10 @@ def sliceFA(f_array):
             m += 1
         n += 1
 #        print('n', n)
-    print('s_f_a done', s_f_a, 'length s_f_a', len(s_f_a))
+#    print('s_f_a done', s_f_a, 'length s_f_a', len(s_f_a))
     return s_f_a, length_array
 
-'''
+
 f = random.uniform(1.5, 9.5)
 print('f', f)
 slice = sliceF(f)
@@ -218,4 +217,3 @@ f_array = f_array.flatten()
 #print(sys.getsizeof())
 sliceA = sliceFA(f_array)[0].flatten()
 print('result', sliceA, 'length', len(sliceA))
-'''
