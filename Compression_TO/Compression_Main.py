@@ -32,7 +32,8 @@ print('lenght', len(int_s_a))
 #lz78 = LZ78.LZ78_Do(int_s_a)
 #rans = rANS.rANS_Do(int_s_a)
 #rle = RLE.RLE_Do(int_s_a)
-bzip_2 = bzip2.bzip2_Do(int_s_a)
+#bzip_2 = bzip2.bzip2_Do(int_s_a)
+
 
 
 
