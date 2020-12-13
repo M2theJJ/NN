@@ -4,6 +4,8 @@ import logging
 from typing import List, Tuple
 import numpy as np
 from Extras import RAS
+import sys
+import os
 
 '''Compress'''
 
@@ -11,7 +13,7 @@ def compress(
     input_string: str, max_offset: int = 2047, max_length: int = 31
 ) -> [(int, int, str)]:
     """Compress the input string into a list of length, offset, char values"""
-
+    #print('inputstring', input_string)
     # Create the input
     input_array = str(input_string[:])
 
@@ -25,6 +27,7 @@ def compress(
         length, offset = best_length_offset(window, input_array, max_length, max_offset)
         output.append((offset, length, input_array[0]))
         window += input_array[:length]
+        #print(input_array)
         input_array = input_array[length:]
 
     return output
@@ -231,15 +234,31 @@ def decompress_file(input_file: str, output_file: str):
 
 def LZ77_Do(array):
 
-    list = RAS.convert_array_to_list(array)
-    string = RAS.convert_list_to_string(list)
+    print('LZ77:')
+#    list = RAS.convert_array_to_list(array)
+#    string = RAS.convert_list_to_string(list)
+    compressed = compress(array.flatten())
+#    compressed = compress(string)
+    a_c = np.array(compressed).flatten()
+    print('compression', compressed)
+    print('ac as array', a_c)
+    #entries of compressed are tuples (48b) with 3 entries (+8b+8b) with entries int (28b), int(28b) & str(49b)
+    #makes one entry have size 169b - get back that entry is int32 - shoud be possible to get it down
+    print('length of compressed is:', len(compressed), 'type of compressed is', type(compressed) )
 
-    compressed = compress(string)
-    print('compressed', compressed)
-
+    #entries are all string (49b)
     decompressed = decompress(compressed)
-    print('decompressed', decompressed)
+    print('length of decompressed is:', len(decompressed))
+    print('decompressed', type(decompressed), len(decompressed), decompressed)
 
     print('ratio', len(compressed)/len(decompressed))
 
+'''
 #compression works decompression as well - ratio good!
+#array = np.random.randint(1, 101, size=(10, 10))
+#array = array.flatten()
+f_array = np.random.uniform(low=0.5, high=9.3, size=(50, 50))
+b = RAS.bin_array(f_array)
+print('b & type', b, b.dtype)
+LZ = LZ77_Do(b)
+'''

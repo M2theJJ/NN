@@ -133,7 +133,7 @@ def test_rans():
     print('x_2', x)
     assert x == (head_min, ())
 
-'''
+
 
 def test_flatten_unflatten():
     state = msg_init
@@ -151,7 +151,8 @@ rng = np.random.RandomState(0)
 #test = test_rans()
 
 #test_f_u = test_flatten_unflatten()
-
+'''
+rng = np.random.RandomState(0)
 def rANS_Do(array):
 
     x = array

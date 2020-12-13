@@ -16,8 +16,7 @@ from tensorflow.keras.optimizers import Adam
 from tensorflow.keras.callbacks import ModelCheckpoint, LearningRateScheduler
 from tensorflow.keras.callbacks import ReduceLROnPlateau
 from tensorflow.keras.preprocessing.image import ImageDataGenerator
-# from keras_applications.mobilenet import relu6
-# from keras.applications.mobilenet import relu6
+#from keras_applications.mobilenet import relu6
 from keras.utils.vis_utils import plot_model
 from keras.utils.generic_utils import CustomObjectScope
 

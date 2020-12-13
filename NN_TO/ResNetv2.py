@@ -18,8 +18,8 @@ import sys
 
 
 # Training parameters
-batch_size = 32  # orig paper trained all networks with batch_size=128
-epochs = 200 #put back to 200 over night
+batch_size = 64  # orig paper trained all networks with batch_size=128
+epochs = 1 #put back to 200 over night
 data_augmentation = True
 num_classes = 10
 
@@ -44,7 +44,7 @@ n = 3
 
 # Model version
 # Orig paper: version = 1 (ResNet v1), Improved ResNet: version = 2 (ResNet v2)
-version = 1
+version = 2
 
 # Computed depth from supplied model parameter n
 if version == 1:
@@ -467,14 +467,23 @@ for batch_idx in range(num_batches):
        intermediate_output = intermediate_layer_model.predict(data[start:end])
        print("Intermediate result batch {}/{} done".format(batch_idx, num_batches))
 
-#creates txt files for each layer
+#loop to measure size of each layer, compresses it with all the compression algorithms and saves the ratios as well
 import io
 for i in range(len(intermediate_output)):
-    with io.open("ResNetv1_activations_of_layer_" + str(i+1) + ".txt", 'w', encoding='utf-8') as f:
+    with io.open("ResNetv2_activations_of_layer_" + str(i+1) + ".txt", 'w', encoding='utf-8') as f:
         f.write(str(intermediate_output[i]))
     print(i+1, 'th layer activations', intermediate_output[i])
     i+=1
 
+'''
+#creates txt files for each layer
+import io
+for i in range(len(intermediate_output)):
+    with io.open("ResNetv2_activations_of_layer_" + str(i+1) + ".txt", 'w', encoding='utf-8') as f:
+        f.write(str(intermediate_output[i]))
+    print(i+1, 'th layer activations', intermediate_output[i])
+    i+=1
+'''
 
 #for i in range(0, len(intermediate_output)):
 #    print(i,'th layer activations', intermediate_output[i])

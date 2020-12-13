@@ -22,7 +22,7 @@ depth = 26
 model_type = 'VGG19%dv%d'
 subtract_pixel_mean = True
 data_augmentation = True
-batch_size = 32
+batch_size = 64 #32
 epochs = 1
 #--------------------------------------------------------------------
 #import library and resize images
@@ -52,6 +52,9 @@ print('y_train shape:', y_train.shape)
 y_train = tensorflow.keras.utils.to_categorical(y_train, num_classes)
 y_test = tensorflow.keras.utils.to_categorical(y_test, num_classes)
 
+#test input:
+#x_train = tf.ones((50000, 32, 32, 3))
+
 #------------------------------------------------------------------------------
 def lr_schedule(epoch):
 
@@ -73,7 +76,7 @@ def VGG19():
 # Build the network of vgg for 10 classes with massive dropout and weight decay as described in the paper.
 
     model = Sequential()
-#weight_decay = self.weight_decay  #change weights??
+    #weight_decay = self.weight_decay  #change weights??
     #every first model.add at end of bracets: kernel_regularizer=regularizers.l2(weight_decay)
 
     model.add(Conv2D(64, (3, 3), padding='same',
@@ -165,21 +168,43 @@ def VGG19():
 
 model = VGG19()
 #--------------------------------------------------------------------------------
-#Get Output
+#Get Output Activations
 num_layers = 60
 all_layers = list()
 for layer_index in range(1, num_layers):
     all_layers.append(model.get_layer(name=None, index=layer_index).output)
+#    print('intermediate layer number', layer_index, 'is layer:', model.get_layer(name=None, index=layer_index).output)
+    print('intermediate layer activations:', Model(inputs=model.input, outputs=model.get_layer(name=None, index=layer_index).output))
 
 intermediate_layer_model_input = model.input
 intermediate_layer_model = Model(inputs=intermediate_layer_model_input, outputs=all_layers)
 #---------------------------------------------------------------------------------
 
+#number of layers
+number_of_layers = model.layers
+print('The number of layers is:', len(number_of_layers))
+'''
+#--------------------------------------------------------------------------------
+#Get Weights of Layer
+for layer in model.layers:
+    weights_l = layer.get_weights() # list of numpy arrays
+    #print('weights', weights_l)
+
+#Global Weights of Model
+#model = VGG19 predefined
+weights_g = model.get_weights() #returns numpy list
+#print('weights', weights_g)
+
+#write weights to file
+filename = "weights_VGG19.txt"
+#text = RAS.convert_f_array_to_file(weights_l, filename)
+#---------------------------------------------------------------------------------
+'''
 model.compile(loss='categorical_crossentropy',
               optimizer=Adam(learning_rate=lr_schedule(0)),
               metrics=['accuracy'])
 model.summary()
-print(model_type)
+print('model type', model_type)
 
 # Prepare model model saving directory.
 save_dir = os.path.join(os.getcwd(), 'saved_models')
@@ -299,22 +324,39 @@ for batch_idx in range(num_batches):
        intermediate_output = intermediate_layer_model.predict(data[start:end])
        print("Intermediate result batch {}/{} done".format(batch_idx, num_batches))
 
+'''
+act_first_layer = intermediate_output[0]
+act_last_layer = intermediate_output[58]
+for i in range(0, len(intermediate_output)):
+    print(i,'th layer activations', intermediate_output[i])
+    i+=1
+#print('frist layer activations', act_first_layer)
+#print('last layer activations', act_last_layer)
+'''
 
+'''
 #within 6th dim the floats/activations are
 print("Got intermediate, a random entry: {}".format(intermediate_output[0][0]))
 print('Type of intermediate_layer_model:', type(intermediate_output), 'type of intermediate_layer_model entry', type(intermediate_output[0][0]))
-print('#rows', len(intermediate_output), 'rows', intermediate_output) #59 - maybe layers?
+print('#rows', len(intermediate_output), 'rows', intermediate_output) #59 - maybe layers? pretty sure layers
 print('#colums', len(intermediate_output[0]), 'colums', intermediate_output[0]) #32
 print('#depth', len(intermediate_output[0][0]), 'depth', intermediate_output[0][0]) #32
 print('#4th dimension?', len(intermediate_output[0][0][0]), '4th dimension?', intermediate_output[0][0][0]) #32
 print('#5th dimension?', len(intermediate_output[0][0][0][0]), '5th dimension?', intermediate_output[0][0][0][0]) #64 float array
 print('6th dimension?', intermediate_output[0][0][0][0][0]) #actual float number
 #print('#7th dimension?', len(intermediate_output[0][0][0][0][0][0]), '5th dimension?', len(intermediate_output[0][0][0][0][0][0])) #doesn't exist
-
+'''
 #write array to file
-filename = "activations_VGG19.txt"
-text = RAS.convert_f_array_to_file(intermediate_output[0][0][0][0], filename)
-
+#filename = "activations_VGG19.txt"
+#text = RAS.convert_f_array_to_file(intermediate_output[0][0][0][0], filename)
+#creates txt files for each layer
+import io
+for i in range(len(intermediate_output)):
+    with io.open("VGG19_activations_of_layer_" + str(i) + ".txt", 'w', encoding='utf-8') as f:
+        f.write(str(intermediate_output[i]))
+    print(i, 'th layer activations', intermediate_output[i])
+    i+=1
+'''
 #slice array and write on file
 s_filename = "sliced_activations_VGG19.txt"
 sliced_arr = Try.slice_float_array(intermediate_output[0][0][0][0])
@@ -322,7 +364,7 @@ sliced_array = sliced_arr[0]
 sliced_arr_l = sliced_arr[1]
 sliced_arr = sliced_array.astype(int)
 sliced_text = RAS.convert_int_array_to_file(sliced_array, s_filename)
-
+'''
 # Score trained model.
 scores = model.evaluate(x_test, y_test, verbose=1)
 print('Test loss:', scores[0])

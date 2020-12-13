@@ -2,13 +2,19 @@ import logging
 from typing import List, Tuple
 import numpy as np
 from Extras import RAS
-from Extras import Try
+#from Extras import Try
 import struct
-from Compression_TO import Huffman, LZ77, LZ78, RLE, rANS, bzip2
+from Compression_TO import Huffman
+from Compression_TO import LZ77
+from Compression_TO import LZ78
+#from Compression_TO import RLE
+#from Compression_TO import rANS
+from Compression_TO import bzip2
 import os, sys
 import os.path
 from os import path
 
+'''
 #path aviable by copying from prject and putting in this:
 #path = '/home/manjos/PycharmProjects/NN/NN_TO/activations_VGG19.txt'
 path = '/Users/m2thejj/PycharmProjects/NN/NN_TO/activations_VGG19.txt'
@@ -27,17 +33,33 @@ int_s_a = int_s_a.flatten()
 #print('array', int_s_a)
 #print('lenght', len(int_s_a))
 
+
+
 #huff = Huffman.Huffman_Do(int_s_a)
 #lz77 = LZ77.LZ77_Do(int_s_a)
 #lz78 = LZ78.LZ78_Do(int_s_a)
 #rans = rANS.rANS_Do(int_s_a)
 rle = RLE.RLE_Do(int_s_a)
-#bzip_2 = bzip2.bzip2_Do(int_s_a)
+bzip_2 = bzip2.bzip2_Do(int_s_a)
+'''
+def compress_all(matrix):
+    m = matrix
+#    print('Matrix', m, 'length', len(m.flatten()))
+    a = m.flatten()
+    a_s = RAS.sliceFA(a)
+    a_s = a_s[0]
+    print('a_s', a_s)
+    a_s = a_s.flatten()
+#    print('sliced & flattened matrix as int array', a_s, 'length', len(a_s), 'type', a_s.dtype)
+    c_huff = Huffman.Huffman_Do(a_s)
+#    c_lz77 = LZ77.LZ77_Do(a_s)
+#    c_lz78 = LZ78.LZ78_Do(a_s)
+#    c_rans = rANS.rANS_Do(a_s)#check
+#    c_rle = RLE.RLE_Do(a_s)#check
+#    c_bzip2 = bzip2.bzip2_Do(a_s)
 
-
-
-
-
+#m = np.random.uniform(low = 0.5, high= 9.3, size=(3, 3))
+#compress = compress_all(m)
 
 '''
 
