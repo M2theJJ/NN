@@ -27,7 +27,7 @@ model_type = 'MobileNetv2%dv%d'
 subtract_pixel_mean = True
 data_augmentation = True
 batch_size = 32
-epochs = 1
+epochs = 200
 #--------------------------------------------------------------------
 #import library and resize images
 
