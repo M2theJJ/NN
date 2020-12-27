@@ -459,6 +459,11 @@ def ResNet(version, n, data, settings):
         model = resnet_v1(n, data)
         depth = n * 6 + 2
 
+    # Quantize
+    # a/w: 8/8, 16/16, 16/8
+    model = Quantizer_TO.apply_quantization(model, pruning_policy=None, weight_precision=8, activation_precision=8,
+                                                activation_margin=None)
+
     # Model name, depth and version
     model_type = 'ResNet%dv%d' % (depth, version)
     model.compile(loss='categorical_crossentropy',
@@ -469,11 +474,6 @@ def ResNet(version, n, data, settings):
     # number of layers
     number_of_layers = model.layers
     print('The number of layers is:', len(number_of_layers))
-
-    # Quantize
-    # a/w: 8/8, 16/16, 16/8
-    model = Quantizer_TO.apply_quantization(model, pruning_policy=None, weight_precision=8, activation_precision=8,
-                                            activation_margin=None)
 
     # --------------------------------------------------------------------------------
     # Get Output Activations
@@ -686,6 +686,9 @@ def VGG19(data, settings):
     # Instantiate model.
     #    model = Model(inputs=inputs, outputs=outputs)
     model_type = 'VGG19'
+    # Quantize
+    # a/w: 8/8, 16/16, 16/8
+    model = Quantizer_TO.apply_quantization(model, pruning_policy=None, weight_precision=8, activation_precision=8, activation_margin=None)
 
     num_layers = 60
     all_layers = list()
@@ -1121,8 +1124,8 @@ def activations_weights(model, data, settings, modelname):
 #b_s = 32, epochs = 200, data_augemtation = true, num_classes = 10 (CIFAR10), substract_pixel_mean = true
 settings = training_parameters(32, 200, True, 10, True)
 data = data(10, settings)
-resnet2 = ResNet(2, 3, data, settings)
-#vgg19 = VGG19(data, settings)
+#resnet2 = ResNet(2, 3, data, settings)
+vgg19 = VGG19(data, settings)
 #activations_weights(vgg19, data, settings, "VGG19")
 #mobilenet = MobileNet(data, settings)
 activations_weights(mobilenet, data, settings, "MobileNet_10_Q")
