@@ -580,7 +580,11 @@ class BFPQuantizeConfig(QuantizeConfig):
         else:
             activ_ops = 0
 
-        mac_per_kernel = reduce(operator.mul, layer.kernel.shape[0:-1], 1)
+        #mac_per_kernel = reduce(operator.mul, layer.kernel.shape[0:-1], 1)
+        try:
+            mac_per_kernel = reduce(operator.mul, layer.kernel.shape[0:-1], 1)
+        except AttributeError:
+            mac_per_kernel = reduce(operator.mul, layer.depthwise_kernel.shape[0:-1], 1)
         output_num_entries = reduce(operator.mul, layer.output_shape[1:], 1)
         mac_ops = 2 * mac_per_kernel * output_num_entries
         # Conv MAC, bias add, relu
