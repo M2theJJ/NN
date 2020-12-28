@@ -1,4 +1,11 @@
 from __future__ import print_function
+
+
+import os
+
+os.environ["CUDA_DEVICE_ORDER"] = "PCI_BUS_ID"  # see issue #152
+os.environ["CUDA_VISIBLE_DEVICES"] = "1"
+
 import tensorflow as tf
 #import tf.keras
 from tensorflow.keras.models import Sequential
@@ -18,12 +25,49 @@ import os
 import logging
 import sys
 import io
+
+from tensorflow_model_optimization.python.core.quantization.keras.quantize_wrapper import QuantizeWrapper as QuantizeWrapper
+
+
 #from tensorflow.keras.utils.vis_utils import plot_model
 from Compression_TO import Compression_Main
 from Extras import RAS
 from NN_TO import Quantizer_TO
 
 #https://machinelearningmastery.com
+
+
+def get_layer_output_model(model):
+    num_layers = len(model.layers)
+    all_layers = list()
+
+    #we do not care about the output of layers as dropout or flatten
+    layers_of_interest = [QuantizeWrapper, Dense, Conv2D, DepthwiseConv2D]
+
+        #, Dense, Conv2D, DepthwiseConv2D, BatchNormalization, Activation, MaxPooling2D, AveragePooling2D]
+
+
+    for layer_index in range(0, num_layers):
+        layer = model.get_layer(name=None, index=layer_index)
+
+        found = False
+        for layer_type in layers_of_interest:
+            if isinstance(layer, layer_type):
+                all_layers.append(layer.input)
+                all_layers.append(layer.output)
+                print('Found layer for storing results {}, storing: {} and '.format(layer.name, layer.input.name,  layer.output.name ))
+                found = True
+                break
+
+        if found is False:
+            print("Not storing activation output for layer: {}".format(layer.name))
+
+    intermediate_layer_model_input = model.get_layer(name=None, index=0).input
+    print("Found model input: {} from layer {}".format(intermediate_layer_model_input.name,  model.get_layer(name=None, index=0).name))
+
+    intermediate_layer_model = Model(inputs=intermediate_layer_model_input, outputs=all_layers)
+    return intermediate_layer_model
+
 
 #b_s = 32, epochs = 200, data_augemtation = true, num_classes = 10 (CIFAR10), substract_pixel_mean = true
 def training_parameters(batch_size, epochs, data_augmentation, num_classes, substract_pixel_mean):
@@ -599,87 +643,92 @@ def VGG19(data, settings):
     num_classes = data[6]
     depth = 26
 
-    model = Sequential()
+    model = Sequential(name="VGG19")
     # weight_decay = self.weight_decay  #change weights??
     # every first model.add at end of bracets: kernel_regularizer=regularizers.l2(weight_decay)
-
+    #model.add(Input(shape=input_shape, name="input_layer"))
     model.add(Conv2D(64, (3, 3), padding='same', input_shape=input_shape))
     model.add(Activation('relu'))
-    model.add(BatchNormalization())
-    model.add(Dropout(0.3))
+    #model.add(BatchNormalization()) #wrong, vgg does not have batchnorm
+    #model.add(Dropout(0.3))
 
     model.add(Conv2D(64, (3, 3), padding='same'))
     model.add(Activation('relu'))
-    model.add(BatchNormalization())
+    #model.add(BatchNormalization())
 
     model.add(MaxPooling2D(pool_size=(2, 2)))
 
     model.add(Conv2D(128, (3, 3), padding='same'))
     model.add(Activation('relu'))
-    model.add(BatchNormalization())
-    model.add(Dropout(0.4))
+    #model.add(BatchNormalization())
+    #model.add(Dropout(0.4))
 
     model.add(Conv2D(128, (3, 3), padding='same'))
     model.add(Activation('relu'))
-    model.add(BatchNormalization())
+    #model.add(BatchNormalization())
 
     model.add(MaxPooling2D(pool_size=(2, 2)))
 
     model.add(Conv2D(256, (3, 3), padding='same'))
     model.add(Activation('relu'))
-    model.add(BatchNormalization())
-    model.add(Dropout(0.4))
+    #model.add(BatchNormalization())
+    #model.add(Dropout(0.4))
 
     model.add(Conv2D(256, (3, 3), padding='same'))
     model.add(Activation('relu'))
-    model.add(BatchNormalization())
-    model.add(Dropout(0.4))
+    #model.add(BatchNormalization())
+    #model.add(Dropout(0.4))
 
     model.add(Conv2D(256, (3, 3), padding='same'))
     model.add(Activation('relu'))
-    model.add(BatchNormalization())
+    #model.add(BatchNormalization())
 
     model.add(MaxPooling2D(pool_size=(2, 2)))
 
     model.add(Conv2D(512, (3, 3), padding='same'))
     model.add(Activation('relu'))
-    model.add(BatchNormalization())
-    model.add(Dropout(0.4))
+    #model.add(BatchNormalization())
+    #model.add(Dropout(0.4))
 
     model.add(Conv2D(512, (3, 3), padding='same'))
     model.add(Activation('relu'))
-    model.add(BatchNormalization())
-    model.add(Dropout(0.4))
+    #model.add(BatchNormalization())
+    #model.add(Dropout(0.4))
 
     model.add(Conv2D(512, (3, 3), padding='same'))
     model.add(Activation('relu'))
-    model.add(BatchNormalization())
+    #model.add(BatchNormalization())
 
     model.add(MaxPooling2D(pool_size=(2, 2)))
 
     model.add(Conv2D(512, (3, 3), padding='same'))
     model.add(Activation('relu'))
-    model.add(BatchNormalization())
-    model.add(Dropout(0.4))
+    #model.add(BatchNormalization())
+    #model.add(Dropout(0.4))
 
     model.add(Conv2D(512, (3, 3), padding='same'))
     model.add(Activation('relu'))
-    model.add(BatchNormalization())
-    model.add(Dropout(0.4))
+    #model.add(BatchNormalization())
+    #model.add(Dropout(0.4))
 
     model.add(Conv2D(512, (3, 3), padding='same'))
     model.add(Activation('relu'))
-    model.add(BatchNormalization())
+    #model.add(BatchNormalization())
 
     model.add(MaxPooling2D(pool_size=(2, 2)))
-    model.add(Dropout(0.5))
+    #model.add(Dropout(0.5))
 
     model.add(Flatten())
-    model.add(Dense(512))
+    model.add(Dense(4096))
     model.add(Activation('relu'))
-    model.add(BatchNormalization())
+    #model.add(BatchNormalization())
 
     model.add(Dropout(0.5))
+
+    model.add(Dense(4096))
+    model.add(Activation('relu'))
+    model.add(Dropout(0.5))
+
     model.add(Dense(num_classes))
     model.add(Activation('softmax'))
 
@@ -688,23 +737,18 @@ def VGG19(data, settings):
     model_type = 'VGG19'
     # Quantize
     # a/w: 8/8, 16/16, 16/8
+
     model = Quantizer_TO.apply_quantization(model, pruning_policy=None, weight_precision=8, activation_precision=8, activation_margin=None)
 
-    num_layers = 60
-    all_layers = list()
-    for layer_index in range(1, num_layers):
-        all_layers.append(model.get_layer(name=None, index=layer_index).output)
-        #    print('intermediate layer number', layer_index, 'is layer:', model.get_layer(name=None, index=layer_index).output)
-        print('intermediate layer activations:',
-              Model(inputs=model.input, outputs=model.get_layer(name=None, index=layer_index).output))
-
-    intermediate_layer_model_input = model.input
-    intermediate_layer_model = Model(inputs=intermediate_layer_model_input, outputs=all_layers)
+    #
 
     model.compile(loss='categorical_crossentropy',
                   optimizer=Adam(learning_rate=lr_schedule(0)),
                   metrics=['accuracy'])
     model.summary()
+
+    intermediate_layer_model = get_layer_output_model(model)
+
     print('model type', model_type)
 
     # Prepare model model saving directory.
