@@ -718,6 +718,7 @@ def apply_quantization(model, pruning_policy=None, weight_precision=None, activa
             try:
                 layer = layer.__class__.from_config(layer.get_config())
             except:
+                print("***** Can't execute cloning?*****")
                 pass
 
             for layer_type in quantization_map:
