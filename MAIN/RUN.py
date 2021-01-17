@@ -1,9 +1,9 @@
 '''import all the Models, Compressions & rest'''
 from __future__ import print_function
 import sys
-sys.path.append(".")
-from MAIN import RESNET, VGG, MOBILENET
-from MAIN import Settings, Conversions, QUANTIZER, W_A
+sys.path.append(".\MAIN")
+from . import RESNET, VGG, MOBILENET
+from . import Settings, Conversions, QUANTIZER, W_A
 
 
 'b_s = 32, epochs = 200, data_augemtation = true, num_classes = 10 (CIFAR10), substract_pixel_mean = true'
