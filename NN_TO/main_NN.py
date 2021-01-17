@@ -4,7 +4,7 @@ from __future__ import print_function
 import os
 
 os.environ["CUDA_DEVICE_ORDER"] = "PCI_BUS_ID"  # see issue #152
-os.environ["CUDA_VISIBLE_DEVICES"] = "1"
+os.environ["CUDA_VISIBLE_DEVICES"] = "0"
 
 import tensorflow as tf
 #import tf.keras
@@ -26,7 +26,7 @@ import logging
 import sys
 import io
 
-from tensorflow_model_optimization.python.core.quantization.keras.quantize_wrapper import QuantizeWrapper as QuantizeWrapper
+#from tensorflow_model_optimization.python.core.quantization.keras.quantize_wrapper import QuantizeWrapper as QuantizeWrapper
 
 
 #from tensorflow.keras.utils.vis_utils import plot_model
@@ -505,7 +505,7 @@ def ResNet(version, n, data, settings):
 
     # Quantize
     # a/w: 8/8, 16/16, 16/8
-    model = Quantizer_TO.apply_quantization(model, pruning_policy=None, weight_precision=8, activation_precision=8,
+    #model = Quantizer_TO.apply_quantization(model, pruning_policy=None, weight_precision=8, activation_precision=8,
                                                 activation_margin=None)
 
     # Model name, depth and version
@@ -738,7 +738,7 @@ def VGG19(data, settings):
     # Quantize
     # a/w: 8/8, 16/16, 16/8
 
-    model = Quantizer_TO.apply_quantization(model, pruning_policy=None, weight_precision=8, activation_precision=8, activation_margin=None)
+    #model = Quantizer_TO.apply_quantization(model, pruning_policy=None, weight_precision=8, activation_precision=8, activation_margin=None)
 
     #
 
@@ -936,7 +936,7 @@ def MobileNet(data, settings, width_multiplier=1.0):
 
     #Quantize
     # a/w: 8/8, 16/16, 16/8
-    model = Quantizer_TO.apply_quantization(model, pruning_policy=None, weight_precision=8, activation_precision=8, activation_margin=None)
+    #model = Quantizer_TO.apply_quantization(model, pruning_policy=None, weight_precision=8, activation_precision=8, activation_margin=None)
 
     #    plot_model(model, to_file='MobileNetv2.png', show_shapes=True)
     #--------------------------------------------------------------------------------
@@ -1166,13 +1166,13 @@ def activations_weights(model, data, settings, modelname):
 
 #################################################################
 #b_s = 32, epochs = 200, data_augemtation = true, num_classes = 10 (CIFAR10), substract_pixel_mean = true
-settings = training_parameters(32, 200, True, 10, True)
-data = data(10, settings)
+settings = training_parameters(32, 200, True, 100, True)
+data = data(100, settings)
 #resnet2 = ResNet(2, 3, data, settings)
 vgg19 = VGG19(data, settings)
 #activations_weights(vgg19, data, settings, "VGG19")
 #mobilenet = MobileNet(data, settings)
-activations_weights(mobilenet, data, settings, "MobileNet_10_Q")
+activations_weights(vgg19, data, settings, "VGG19_100")
 #loaded_model = load_model("resnetv2_model.h5")
 #compression = activations_compression(resnet2, data, settings)
 #activations_weights(resnet2, data, settings, "ResNetv2")
