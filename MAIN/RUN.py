@@ -1,7 +1,7 @@
 '''import all the Models, Compressions & rest'''
 from __future__ import print_function
 import sys
-sys.path.append(".\MAIN")
+sys.path.append(".")
 from . import RESNET, VGG, MOBILENET
 from . import Settings, Conversions, QUANTIZER, W_A
 
