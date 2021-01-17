@@ -1,10 +1,11 @@
 '''import all the Models, Compressions & rest'''
 from __future__ import print_function
-#import sys
+import sys
+sys.path.append("..\MAIN")
 from . import RESNET, VGG, MOBILENET
 from . import Settings, Conversions, QUANTIZER, W_A
 
-#sys.path.append("..\MAIN")
+
 'b_s = 32, epochs = 200, data_augemtation = true, num_classes = 10 (CIFAR10), substract_pixel_mean = true'
 settings = Settings.training_parameters(32, 200, True, 10, True, None, None) #returns bs, ep, da, nc, spm, qwp, qap
 data = Settings.data(10, settings)  #returns x_train, y_train, x_test, y_test, x_train_mean, input_shape, dataset
