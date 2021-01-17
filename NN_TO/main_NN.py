@@ -506,7 +506,7 @@ def ResNet(version, n, data, settings):
     # Quantize
     # a/w: 8/8, 16/16, 16/8
     #model = Quantizer_TO.apply_quantization(model, pruning_policy=None, weight_precision=8, activation_precision=8,
-                                                activation_margin=None)
+    #                                            activation_margin=None)
 
     # Model name, depth and version
     model_type = 'ResNet%dv%d' % (depth, version)
