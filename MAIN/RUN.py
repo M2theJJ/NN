@@ -1,4 +1,6 @@
 '''import all the Models, Compressions & rest'''
+#to run on terminal: python MAIN/RUN.py
+#update git: git pull https://github.com/M2theJJ/NN
 from __future__ import print_function
 import sys
 sys.path.append(".")
