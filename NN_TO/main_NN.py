@@ -3,8 +3,8 @@ from __future__ import print_function
 
 import os
 
-os.environ["CUDA_DEVICE_ORDER"] = "PCI_BUS_ID"  # see issue #152
-os.environ["CUDA_VISIBLE_DEVICES"] = "1"
+#os.environ["CUDA_DEVICE_ORDER"] = "PCI_BUS_ID"  # see issue #152
+#os.environ["CUDA_VISIBLE_DEVICES"] = "1"
 
 import tensorflow as tf
 #import tf.keras
@@ -88,7 +88,7 @@ def data(dataset, settings):
         (x_train, y_train), (x_test, y_test) = cifar10.load_data()
 
     if dataset == 100:
-        (x_train, y_train), (x_test, y_test) = tensorflow.keras.datasets.cifar100.load_data(label_mode="fine")
+        (x_train, y_train), (x_test, y_test) = tf.keras.datasets.cifar100.load_data(label_mode="fine")
         #tf.keras.datasets.cifar100.load_data(label_mode="fine")
 
 
@@ -505,8 +505,8 @@ def ResNet(version, n, data, settings):
 
     # Quantize
     # a/w: 8/8, 16/16, 16/8
-    model = Quantizer_TO.apply_quantization(model, pruning_policy=None, weight_precision=8, activation_precision=8,
-                                                activation_margin=None)
+    #model = Quantizer_TO.apply_quantization(model, pruning_policy=None, weight_precision=8, activation_precision=8,
+    #                                            activation_margin=None)
 
     # Model name, depth and version
     model_type = 'ResNet%dv%d' % (depth, version)
@@ -625,6 +625,21 @@ def ResNet(version, n, data, settings):
     print('Test accuracy:', scores[1])
     #plot = plot_model(model)
     #see if install jupyter notebook to get image of plot.
+    class LogFile(object):
+        """File-like object to log text using the `logging` module."""
+
+        def __init__(self, name=None):
+            self.logger = logging.getLogger(name)
+
+        def write(self, msg, level=logging.INFO):
+            self.logger.log(level, msg)
+
+        def flush(self):
+            for handler in self.logger.handlers:
+                handler.flush()
+
+    logging.basicConfig(level=logging.DEBUG, filename='../Keras_Resnet_CIFAR10_v2.log')
+
     model.save("resnetv2_model.h5")
     return model
 
@@ -936,8 +951,8 @@ def MobileNet(data, settings, width_multiplier=1.0):
 
     #Quantize
     # a/w: 8/8, 16/16, 16/8
-    model = Quantizer_TO.apply_quantization(model, pruning_policy=None, weight_precision=8, activation_precision=8, activation_margin=None)
-
+    model = Quantizer_TO.apply_quantization(model, pruning_policy=None, weight_precision=16, activation_precision=16, activation_margin=None)
+    '''
     #    plot_model(model, to_file='MobileNetv2.png', show_shapes=True)
     #--------------------------------------------------------------------------------
     #Get Output
@@ -949,6 +964,7 @@ def MobileNet(data, settings, width_multiplier=1.0):
     intermediate_layer_model_input = model.input
     intermediate_layer_model = Model(inputs=intermediate_layer_model_input, outputs=all_layers)
     #---------------------------------------------------------------------------------
+    '''
     model.compile(loss='categorical_crossentropy',
               optimizer=Adam(learning_rate=lr_schedule(0)),
               metrics=['accuracy'])
@@ -1047,6 +1063,7 @@ def MobileNet(data, settings, width_multiplier=1.0):
                         callbacks=callbacks)
 
     #----------------------------------------------------------
+    '''
     data = x_test
     num_batches = data.shape[0] // batch_size
     for batch_idx in range(num_batches):
@@ -1056,11 +1073,12 @@ def MobileNet(data, settings, width_multiplier=1.0):
        print("Intermediate result batch {}/{} done".format(batch_idx, num_batches))
 
     print("Got intermediate, a random entry: {}".format(intermediate_output[0][0]))
+    '''
     # Score trained model.
     scores = model.evaluate(x_test, y_test, verbose=1)
     print('Test loss:', scores[0])
     print('Test accuracy:', scores[1])
-    model.save("mobilenet_model.h5")
+#    model.save("mobilenet_model.h5")
     return model
 
 
@@ -1117,7 +1135,9 @@ def activations_weights(model, data, settings, modelname):
     batch_size = settings[0]
     number_of_layers = model.layers
     num_layers = len(number_of_layers)
-    print('number of layers:', len(number_of_layers))
+    intermediate_layer_model = get_layer_output_model(model)
+    print('number of layers:', num_layers)
+    '''
     all_layers = list()
     for layer_index in range(1, num_layers):
         all_layers.append(model.get_layer(name=None, index=layer_index).output)
@@ -1126,7 +1146,7 @@ def activations_weights(model, data, settings, modelname):
 
     intermediate_layer_model_input = model.input
     intermediate_layer_model = Model(inputs=intermediate_layer_model_input, outputs=all_layers)
-
+    '''
     data = x_test
     num_batches = data.shape[0] // batch_size
     for batch_idx in range(num_batches):
@@ -1140,6 +1160,7 @@ def activations_weights(model, data, settings, modelname):
     print('length of activations layers:', len(intermediate_output))
     for i in range(len(intermediate_output)):
         a = intermediate_output[i]
+        print(a)
         # save activations as np.arrays to according file
         np.save(modelname + '_activations_' + str(i + 1), a)
         if i > 0:
@@ -1168,11 +1189,11 @@ def activations_weights(model, data, settings, modelname):
 #b_s = 32, epochs = 200, data_augemtation = true, num_classes = 10 (CIFAR10), substract_pixel_mean = true
 settings = training_parameters(32, 200, True, 10, True)
 data = data(10, settings)
-#resnet2 = ResNet(2, 3, data, settings)
-vgg19 = VGG19(data, settings)
+resnet2 = ResNet(2, 2, data, settings)
+#vgg19 = VGG19(data, settings)
 #activations_weights(vgg19, data, settings, "VGG19")
 #mobilenet = MobileNet(data, settings)
-activations_weights(mobilenet, data, settings, "MobileNet_10_Q")
+activations_weights(resnet2, data, settings, "Resnet_v2_depth_20_C10")
 #loaded_model = load_model("resnetv2_model.h5")
 #compression = activations_compression(resnet2, data, settings)
 #activations_weights(resnet2, data, settings, "ResNetv2")
